@@ -1,0 +1,57 @@
+/* =====================================================================
+   CORE · UTILITIES  (tone-aware helpers + surface effects)
+   ---------------------------------------------------------------------
+   Small utilities that lean on the tone system or the surface tokens.
+   Raw Tailwind still owns spacing/layout/etc; these add what Tailwind
+   can't express as cleanly.
+   ===================================================================== */
+@layer utilities {
+    /* Clip the current tone's gradient to text — great for headlines.
+       Pair with a .tone-* (or leave to accent). */
+    .text-gradient {
+        background-image: linear-gradient(135deg, var(--t-l), var(--t), var(--t-d));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Frosted glass panel. */
+    .glass {
+        background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid color-mix(in srgb, var(--color-edge) 70%, transparent);
+    }
+
+    /* Tone gradient border (fill stays surface). */
+    .gradient-border {
+        border: 1px solid transparent;
+        background:
+            linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+            linear-gradient(135deg, var(--t-l), var(--t), var(--t-d)) border-box;
+    }
+
+    /* Elevation scale (tokenised shadows). */
+    .elevation-1 { box-shadow: var(--elevation-1); }
+    .elevation-2 { box-shadow: var(--elevation-2); }
+    .elevation-3 { box-shadow: var(--elevation-3); }
+    .elevation-4 { box-shadow: var(--elevation-4); }
+    .elevation-5 { box-shadow: var(--elevation-5); }
+
+    /* Scrim — darken behind overlaid text (e.g. text on imagery). */
+    .scrim { position: relative; }
+    .scrim::after {
+        content: "";
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgb(0 0 0 / 0.65), rgb(0 0 0 / 0.1));
+        pointer-events: none;
+    }
+    .scrim > * { position: relative; z-index: 1; }
+
+    /* Themed focus ring, as a utility for custom controls. */
+    .focus-ring:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 var(--focus-width) var(--focus-color);
+    }
+}

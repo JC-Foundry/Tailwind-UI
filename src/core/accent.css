@@ -1,0 +1,39 @@
+/* =====================================================================
+   CORE · ACCENT + DEFAULT TONE
+   ---------------------------------------------------------------------
+   The accent system decouples COLOUR from TREATMENT:
+     • a .tone-{type} class sets the palette vars (--t / --t-l / --t-d / --t-fg)
+     • a treatment class (.btn-solid, .gradient, .badge-soft, .hero …) consumes them
+   With NO .tone-* present the palette falls back to --accent, so every
+   unclassed treatment auto-themes to the app's accent colour.
+
+   Set --accent however you like:
+     • statically   →  :root { --accent: var(--color-primary); }
+     • dynamically  →  write it onto <body> per request (multi-tenant / theming):
+                       <body style="--accent:#b91c1c; --accent-fg:#fff;">
+   Because --accent can be ANY colour — including a custom one with no
+   -light/-dark defined — its shades are derived here with color-mix, so
+   the accent works whatever colour it is set to.
+
+   WHY the derived vars live on <body>, not :root:
+   a var() inside a custom property is substituted where it is DECLARED, then
+   inherits as an already-resolved value. Declared on :root, --accent-light and
+   the default --t* would bake in whatever --accent was at :root and never track
+   a per-request override on <body>. Declared on <body> — the same element the
+   override lands on — they recompute from the current --accent.
+   ===================================================================== */
+:root {
+    --accent: var(--color-primary);
+    --accent-fg: var(--color-primary-fg);
+}
+
+body {
+    --accent-light: color-mix(in srgb, var(--accent) 68%, white);
+    --accent-dark:  color-mix(in srgb, var(--accent) 65%, black);
+
+    /* Default palette = the accent. .tone-{type} overrides these per element. */
+    --t:    var(--accent);
+    --t-l:  var(--accent-light);
+    --t-d:  var(--accent-dark);
+    --t-fg: var(--accent-fg);
+}

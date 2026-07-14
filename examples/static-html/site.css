@@ -1,0 +1,26 @@
+/* Kitchen-sink demo entry: the bundle + optional interactive layer + a
+   custom brand colour (Monappoly pink) to prove custom colours compose. */
+@import "../../src/index.css";
+@import "../../src/interactive/interactive.css";
+
+@source "./index.html";
+
+/* A brand-new custom colour — hot pink, clearly distinct from danger red. */
+@theme {
+    --color-monappoly: #ec4899; --color-monappoly-light: #f9a8d4; --color-monappoly-dark: #be185d; --color-monappoly-fg: #ffffff;
+}
+
+/* One tone rule unlocks every treatment for the custom colour. */
+.tone-monappoly       { --t: var(--color-monappoly);       --t-l: var(--color-monappoly-light); --t-d: var(--color-monappoly-dark); --t-fg: var(--color-monappoly-fg); }
+.tone-monappoly-light { --t: var(--color-monappoly-light); --t-l: color-mix(in srgb, var(--color-monappoly-light) 68%, white); --t-d: var(--color-monappoly);      --t-fg: var(--color-monappoly-fg); }
+.tone-monappoly-dark  { --t: var(--color-monappoly-dark);  --t-l: var(--color-monappoly);       --t-d: color-mix(in srgb, var(--color-monappoly-dark) 65%, black); --t-fg: var(--color-monappoly-fg); }
+
+/* -------- demo-only layout helpers (not part of the framework) -------- */
+.ks-toc {
+    position: sticky; top: 0; z-index: 60;
+    background: color-mix(in srgb, var(--color-canvas) 85%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-edge);
+}
+.ks-label { color: var(--color-fg-muted); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.ks-swatch { height: 3.75rem; border-radius: var(--radius-md); display: flex; align-items: flex-end; padding: 0.3rem 0.45rem; font-size: 0.68rem; font-weight: 600; border: 1px solid var(--color-edge); }

@@ -1,20 +1,35 @@
-/* Tables — basic styling (plan §14) */
+/* =====================================================================
+   COMPONENT · TABLE  (Bootstrap vocabulary)
+   table · table-striped · table-hover · table-bordered · table-sm
+   table-responsive · sortable header affordance · sticky header
+   ---------------------------------------------------------------------
+   Base <table> is already themed in core/base.css; `.table` opts into the
+   component variants and a denser, class-driven treatment.
+   ===================================================================== */
 @layer components {
-  .table {
-    @apply w-full border-collapse text-left text-sm text-content;
-  }
-  .table th {
-    @apply border-b border-border px-4 py-3 font-semibold text-content-muted;
-  }
-  .table td {
-    @apply border-b border-border-muted px-4 py-3 align-middle;
-  }
-  .table tbody tr:hover {
-    @apply bg-surface-muted;
-  }
+    .table { width: 100%; border-collapse: collapse; color: var(--color-fg); font-size: 0.9rem; }
+    .table th, .table td { padding: 0.75rem 1rem; text-align: left; vertical-align: middle; }
+    .table thead th {
+        border-bottom: 1px solid var(--color-edge);
+        font-weight: var(--weight-semibold); color: var(--color-fg-muted);
+    }
+    .table tbody td { border-bottom: 1px solid color-mix(in srgb, var(--color-edge) 60%, transparent); }
+    .table tbody tr:last-child td { border-bottom: 0; }
 
-  /* -- Variants ------------------------------------------------------- */
-  .table-striped tbody tr:nth-child(odd) { @apply bg-surface-muted/60; }
-  .table-compact th,
-  .table-compact td { @apply px-3 py-2; }
+    .table-striped tbody tr:nth-child(odd) { background: color-mix(in srgb, var(--color-surface) 55%, transparent); }
+    .table-hover tbody tr:hover { background: var(--color-surface-2); }
+    .table-bordered, .table-bordered th, .table-bordered td { border: 1px solid var(--color-edge); }
+    .table-sm th, .table-sm td { padding: 0.4rem 0.6rem; }
+
+    /* Sortable header affordance (add .sortable to a th; toggle .asc/.desc). */
+    .table th.sortable { cursor: pointer; user-select: none; }
+    .table th.sortable::after { content: "⇅"; margin-left: 0.4em; opacity: 0.4; font-size: 0.85em; }
+    .table th.sortable.asc::after  { content: "↑"; opacity: 1; }
+    .table th.sortable.desc::after { content: "↓"; opacity: 1; }
+
+    /* Sticky header (needs a scroll container, e.g. .table-responsive). */
+    .table-sticky thead th { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--color-surface); }
+
+    /* Horizontal scroll wrapper. */
+    .table-responsive { overflow-x: auto; }
 }

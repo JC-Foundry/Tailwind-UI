@@ -1,0 +1,135 @@
+/* =====================================================================
+   INTERACTIVE · CSS  (OPTIONAL layer)
+   ---------------------------------------------------------------------
+   Behavioural components: modals, toasts, pagination, switch, inline-edit,
+   copy button, colour palette picker, icon buttons. These pair with
+   interactive/ui.js, which wires them via data-* attributes.
+
+   Import ONLY if you use them:
+       @import "jc-tailwind-ui/interactive";   (CSS)
+       import { initUI } from "jc-tailwind-ui/interactive/ui.js";  (JS)
+
+   Colours track the app accent (--accent) so they auto-theme.
+   ===================================================================== */
+@layer components {
+    /* ---- Copy-on-click affordance (pair with [data-copy]) ------------ */
+    .copy-btn {
+        display: inline-flex; align-items: center; gap: 0.3rem;
+        background: none; border: 0; padding: 0; margin: 0;
+        font: inherit; color: var(--color-fg-muted); cursor: pointer;
+    }
+    .copy-btn:hover { color: var(--accent-light); }
+    .copy-btn i { font-size: 0.85em; opacity: 0.7; }
+
+    /* ---- Icon button (small, borderless — e.g. the inline-edit pencil) ---- */
+    .icon-btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 1.85rem; height: 1.85rem; border-radius: var(--radius-md);
+        border: 0; background: none; color: var(--color-fg-muted); cursor: pointer; flex-shrink: 0;
+        transition: background-color 0.15s ease, color 0.15s ease;
+    }
+    .icon-btn:hover { background: var(--color-surface-2); color: var(--color-fg); }
+
+    /* ---- Modals (toggle .open via ui.js) ----------------------------- */
+    .modal-backdrop {
+        position: fixed; inset: 0; z-index: 100;
+        display: none; place-items: center; padding: 1rem;
+        background: rgba(3, 6, 12, 0.6); backdrop-filter: blur(3px);
+    }
+    .modal-backdrop.open { display: grid; }
+    .modal {
+        width: 100%; max-width: 30rem;
+        background: var(--color-surface); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-radius: var(--radius-xl);
+        padding: 1.5rem; box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.75);
+        animation: modal-in 0.18s var(--ease-pop);
+    }
+    .modal--lg { max-width: 42rem; }
+    .modal__title { margin: 0 0 0.5rem; font-size: 1.25rem; }
+    .modal__body { color: var(--color-fg-muted); margin: 0 0 1.25rem; }
+    .modal__actions { display: flex; justify-content: flex-end; gap: 0.5rem; }
+
+    /* ---- Toasts (ui.js appends into .toast-host) — top-right ---------- */
+    .toast-host {
+        position: fixed; top: 1.25rem; right: 1.25rem; z-index: 200;
+        display: flex; flex-direction: column; gap: 0.65rem;
+        max-width: min(28rem, calc(100vw - 2rem));
+    }
+    .toast {
+        background: var(--color-surface-2); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-left: 5px solid var(--accent);
+        border-radius: var(--radius-lg); padding: 0.9rem 1.15rem; font-size: 1rem; font-weight: 500;
+        box-shadow: 0 18px 44px -14px rgba(0, 0, 0, 0.7);
+        transition: opacity 0.2s ease; animation: toast-in 0.2s var(--ease-pop);
+    }
+    .toast--success { border-left-color: var(--color-success); }
+    .toast--danger  { border-left-color: var(--color-danger); }
+
+    /* ---- Pagination (Bootstrap-ish markup) --------------------------- */
+    .pagination {
+        display: flex; flex-wrap: wrap; gap: 0.25rem;
+        list-style: none; padding: 0; margin: 1.5rem 0 0; justify-content: center;
+    }
+    .pagination .page-item { display: inline-flex; }
+    .pagination .page-link {
+        display: inline-flex; align-items: center; justify-content: center;
+        min-width: 2.25rem; height: 2.25rem; padding: 0 0.6rem;
+        border: 1px solid var(--color-edge); border-radius: var(--radius-md);
+        color: var(--color-fg-muted); text-decoration: none; font-size: 0.875rem; cursor: pointer;
+        transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .pagination .page-link:hover { background: var(--color-surface-2); color: var(--color-fg); }
+    .pagination .page-item.active .page-link {
+        background: color-mix(in srgb, var(--accent) 18%, transparent);
+        color: var(--accent-light);
+        border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    }
+    .pagination .page-item.disabled .page-link { opacity: 0.4; pointer-events: none; }
+
+    /* ---- Inline edit (pencil → input + save/cancel; .editing toggled by ui.js) ---- */
+    .edit-field__form { display: none; }
+    .edit-field.editing .edit-field__view { display: none; }
+    .edit-field.editing .edit-field__form { display: block; }
+
+    /* ---- Toggle switch (reflects a bool; click flips + optionally posts) ---- */
+    .switch {
+        position: relative; display: inline-flex; flex-shrink: 0;
+        width: 2.85rem; height: 1.6rem; padding: 0; cursor: pointer;
+        border-radius: 999px; background: var(--color-surface-2); border: 1px solid var(--color-edge);
+        transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .switch::after {
+        content: ""; position: absolute; left: 0.2rem; top: 50%;
+        width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--color-fg-muted);
+        transform: translateY(-50%);
+        transition: transform 0.2s var(--ease-pop), background-color 0.2s ease;
+    }
+    .switch--on { background: color-mix(in srgb, var(--accent) 30%, transparent); border-color: var(--accent); }
+    .switch--on::after { transform: translateY(-50%) translateX(1.25rem); background: var(--accent); }
+
+    /* ---- Colour palette picker (grid of swatches) -------------------- */
+    .palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(2.25rem, 1fr)); gap: 0.5rem; }
+    .swatch {
+        aspect-ratio: 1; border-radius: var(--radius-md); border: 0; padding: 0; cursor: pointer;
+        outline: 2px solid transparent; outline-offset: 2px;
+        transition: transform 0.15s var(--ease-pop), outline-color 0.15s ease;
+    }
+    .swatch:hover { transform: translateY(-2px); }
+    .swatch--active { outline-color: var(--color-fg); }
+
+    /* ---- Back-to-top (appears past 400px; ui.js toggles .show) -------- */
+    .back-to-top {
+        position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: var(--z-sticky);
+        display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem;
+        border: 1px solid var(--color-edge); border-radius: 50%;
+        background: var(--color-surface); color: var(--color-fg); cursor: pointer;
+        box-shadow: var(--elevation-3);
+        opacity: 0; transform: translateY(0.5rem); pointer-events: none;
+        transition: opacity var(--duration-base) var(--ease-standard), transform var(--duration-base) var(--ease-standard);
+    }
+    .back-to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+}
+
+@keyframes modal-in { from { opacity: 0; transform: translateY(10px) scale(0.98); } }
+@keyframes toast-in { from { opacity: 0; transform: translateY(-8px); } }
+@media (prefers-reduced-motion: reduce) { .modal, .toast, .back-to-top { animation: none; transition: none; } }

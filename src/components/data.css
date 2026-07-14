@@ -1,0 +1,81 @@
+/* =====================================================================
+   COMPONENT · DATA DISPLAY
+   avatar (+ group, status) · stat · timeline · kbd · empty-state ·
+   description list · tag (removable)
+   ===================================================================== */
+@layer components {
+    /* ---- Avatar ------------------------------------------------------ */
+    .avatar {
+        display: inline-grid; place-items: center; flex-shrink: 0;
+        width: 2.5rem; height: 2.5rem; border-radius: 50%;
+        background: var(--color-surface-2); color: var(--color-fg);
+        font-weight: var(--weight-semibold); overflow: hidden; position: relative;
+    }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-sm { width: 1.75rem; height: 1.75rem; font-size: 0.75rem; }
+    .avatar-lg { width: 3.5rem; height: 3.5rem; font-size: 1.25rem; }
+    .avatar-status::after {
+        content: ""; position: absolute; right: 0; bottom: 0;
+        width: 0.7rem; height: 0.7rem; border-radius: 50%;
+        background: var(--color-success); border: 2px solid var(--color-surface);
+    }
+    .avatar-status.offline::after { background: var(--color-fg-subtle); }
+    .avatar-status.busy::after { background: var(--color-danger); }
+    .avatar-group { display: inline-flex; }
+    .avatar-group .avatar:not(:first-child) { margin-left: -0.6rem; border: 2px solid var(--color-canvas); }
+
+    /* ---- Stat / KPI tile --------------------------------------------- */
+    .stat {
+        display: flex; flex-direction: column; gap: 0.25rem;
+        padding: 1rem 1.25rem;
+        background: var(--color-surface); border: 1px solid var(--color-edge);
+        border-radius: var(--radius-lg);
+    }
+    .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-fg-muted); }
+    .stat-value { font-size: 1.75rem; font-weight: var(--weight-semibold); line-height: 1.1; letter-spacing: -0.02em; }
+    .stat-trend { font-size: 0.8rem; display: inline-flex; align-items: center; gap: 0.2rem; }
+    .stat-trend.up { color: var(--color-success-light); }
+    .stat-trend.down { color: var(--color-danger-light); }
+
+    /* ---- Timeline ---------------------------------------------------- */
+    .timeline { list-style: none; margin: 0; padding: 0 0 0 1.5rem; position: relative; }
+    .timeline::before { content: ""; position: absolute; left: 0.35rem; top: 0.3rem; bottom: 0.3rem; width: 2px; background: var(--color-edge); }
+    .timeline-item { position: relative; padding-bottom: 1.25rem; }
+    .timeline-item::before {
+        content: ""; position: absolute; left: calc(-1.5rem + 0.35rem); top: 0.3rem;
+        width: 0.75rem; height: 0.75rem; border-radius: 50%;
+        background: var(--accent); border: 2px solid var(--color-canvas); transform: translateX(-50%);
+    }
+    .timeline-item.tone-primary::before, .timeline-item.tone-success::before, .timeline-item.tone-warning::before,
+    .timeline-item.tone-danger::before, .timeline-item.tone-info::before { background: var(--t); }
+    .timeline-time { font-size: 0.75rem; color: var(--color-fg-subtle); }
+
+    /* ---- Keyboard key ------------------------------------------------ */
+    kbd, .kbd {
+        display: inline-block; padding: 0.1rem 0.4rem; font-family: var(--font-mono); font-size: 0.8em;
+        background: var(--color-surface-2); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-bottom-width: 2px; border-radius: var(--radius-sm);
+    }
+
+    /* ---- Empty state ------------------------------------------------- */
+    .empty-state {
+        display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+        text-align: center; padding: 3rem 1.5rem; color: var(--color-fg-muted);
+        border: 1px dashed var(--color-edge); border-radius: var(--radius-xl);
+    }
+    .empty-state__icon { font-size: 2.5rem; opacity: 0.6; }
+
+    /* ---- Description list -------------------------------------------- */
+    .description-list { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.25rem; }
+    .description-list dt { color: var(--color-fg-muted); font-size: 0.85rem; }
+    .description-list dd { margin: 0; }
+
+    /* ---- Tag (removable) --------------------------------------------- */
+    .tag {
+        display: inline-flex; align-items: center; gap: 0.35rem;
+        padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); font-size: 0.8rem;
+        background: color-mix(in srgb, var(--t) var(--mix-soft), transparent); color: var(--t-l);
+    }
+    .tag__remove { cursor: pointer; border: 0; background: none; color: inherit; opacity: 0.7; font-size: 1em; line-height: 1; }
+    .tag__remove:hover { opacity: 1; }
+}

@@ -1,7 +1,7 @@
 {
   "name": "jc-tailwind-ui",
   "version": "0.1.0",
-  "description": "A reusable Tailwind v4 styling bundle with JC Foundry design tokens, a semantic colour system, and thin Bootstrap-flavoured component classes.",
+  "description": "A reusable Tailwind v4 design system: a decoupled tone + treatment engine where any colour composes with every component (buttons, cards, hero, gradients, scroll-storytelling) — plus an optional interactive layer.",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -10,16 +10,20 @@
     "README.md"
   ],
   "exports": {
-    ".": "./src/styling.css",
-    "./styling.css": "./src/styling.css",
+    ".": "./src/index.css",
+    "./interactive": "./src/interactive/interactive.css",
+    "./interactive/ui.js": "./src/interactive/ui.js",
+    "./motion/scrollytell.js": "./src/motion/scrollytell.js",
+    "./motion/reveal.js": "./src/motion/reveal.js",
     "./dist/jc-tailwind-ui.css": "./dist/jc-tailwind-ui.css"
   },
   "scripts": {
-    "build": "tailwindcss -i ./src/styling.css -o ./dist/jc-tailwind-ui.css",
-    "build:min": "tailwindcss -i ./src/styling.css -o ./dist/jc-tailwind-ui.min.css --minify",
-    "dist": "npm run build && npm run build:min",
-    "watch": "tailwindcss -i ./src/styling.css -o ./dist/jc-tailwind-ui.css --watch",
-    "example:html": "tailwindcss -i ./examples/static-html/input.css -o ./examples/static-html/output.css --watch"
+    "build": "tailwindcss -i ./src/index.css -o ./dist/jc-tailwind-ui.css",
+    "build:min": "tailwindcss -i ./src/index.css -o ./dist/jc-tailwind-ui.min.css --minify",
+    "copy:js": "node -e \"const f=require('fs');f.copyFileSync('src/interactive/ui.js','dist/jc-tailwind-ui.ui.js');f.copyFileSync('src/motion/scrollytell.js','dist/jc-tailwind-ui.scrollytell.js');f.copyFileSync('src/motion/reveal.js','dist/jc-tailwind-ui.reveal.js')\"",
+    "dist": "npm run build && npm run build:min && npm run copy:js",
+    "watch": "tailwindcss -i ./src/index.css -o ./dist/jc-tailwind-ui.css --watch",
+    "example:html": "tailwindcss -i ./examples/static-html/site.css -o ./examples/static-html/output.css --watch"
   },
   "devDependencies": {
     "@tailwindcss/cli": "^4.0.0",

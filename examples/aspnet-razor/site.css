@@ -1,0 +1,26 @@
+/* ==========================================================================
+   ASP.NET consumer entry (e.g. Styles/site.css)
+   --------------------------------------------------------------------------
+   Vendor the bundle (git submodule / subtree / copy) under, e.g.,
+   ./vendor/jc-tailwind-ui, then build:
+
+     tailwindcss -i ./Styles/site.css -o ./wwwroot/css/site.css --minify
+
+   Reference the output once in _Layout.cshtml:
+     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+   For per-request accent theming, write the accent onto <body>:
+     <body style="--accent:@Model.Accent; --accent-fg:#fff;">
+   ========================================================================== */
+
+@import "../../src/index.css";              /* -> "./vendor/jc-tailwind-ui" in a real app */
+@import "../../src/interactive/interactive.css";
+
+/* Scan Razor markup for utility classes. */
+@source "../**/*.cshtml";
+
+/* App brand. */
+@theme {
+    --color-primary: #1d4ed8; --color-primary-light: #60a5fa; --color-primary-dark: #1e3a8a; --color-primary-fg: #ffffff;
+}
+:root { --accent: var(--color-primary); --accent-fg: var(--color-primary-fg); }

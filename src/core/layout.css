@@ -1,0 +1,95 @@
+/* =====================================================================
+   CORE · LAYOUT  (containers, primitives, structure)
+   ===================================================================== */
+@layer utilities {
+    /* ---- Containers -------------------------------------------------- */
+    .container-page,
+    .container { width: 100%; margin-inline: auto; padding-inline: 1.5rem; max-width: var(--container-lg); }
+    .container-sm { max-width: var(--container-sm); }
+    .container-md { max-width: var(--container-md); }
+    .container-lg { max-width: var(--container-lg); }
+    .container-xl { max-width: var(--container-xl); }
+    .container-fluid { max-width: none; }
+
+    .section { padding-block: clamp(3rem, 6vw, 6rem); }
+
+    /* Full-bleed: break a child of a centred container out to the viewport
+       edges. The 100vw width is kept from adding a horizontal scrollbar by
+       `overflow-x: clip` on <html> (base.css). Nest a `.container` inside to
+       pull text back onto the grid while the background stays full-width. */
+    .full-bleed { width: 100vw; margin-inline: calc(50% - 50vw); }
+
+    /* ---- Flow primitives (Every-Layout style) ----------------------- */
+    .stack   { display: flex; flex-direction: column; gap: var(--gap, 1rem); }
+    .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--gap, 0.75rem); }
+    .center-grid { display: grid; place-items: center; }
+    .grid-auto {
+        display: grid; gap: var(--gap, 1rem);
+        grid-template-columns: repeat(auto-fill, minmax(var(--col-min, 16rem), 1fr));
+    }
+    .grid-fit { grid-template-columns: repeat(auto-fit, minmax(var(--col-min, 16rem), 1fr)); }
+
+    /* ---- Divider ----------------------------------------------------- */
+    .divider { border: 0; border-top: 1px solid var(--color-edge); margin-block: 1.5rem; }
+    .divider-label {
+        display: flex; align-items: center; gap: 1rem;
+        color: var(--color-fg-muted); font-size: 0.8rem; margin-block: 1.5rem;
+    }
+    .divider-label::before, .divider-label::after {
+        content: ""; flex: 1; height: 1px; background: var(--color-edge);
+    }
+
+    /* ---- Page header (title row + actions) --------------------------- */
+    .page-header {
+        display: flex; flex-wrap: wrap; align-items: flex-start;
+        justify-content: space-between; gap: 1rem;
+        padding-bottom: 1.25rem; margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--color-edge);
+    }
+    .page-header__title { margin: 0; }
+    .page-header__subtitle { color: var(--color-fg-muted); margin: 0.25rem 0 0; }
+    .page-header__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+}
+
+@layer components {
+    /* ---- App shell (generic sidebar + header + main) ----------------
+       A neutral application frame — not tied to any app type. Compose a
+       navbar in the header slot and a nav/list-group in the sidebar. */
+    .app-shell {
+        display: grid;
+        min-height: 100vh;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto 1fr;
+        grid-template-areas:
+            "sidebar header"
+            "sidebar main";
+        background: var(--color-canvas);
+        color: var(--color-fg);
+    }
+    .app-shell__sidebar {
+        grid-area: sidebar;
+        display: flex; flex-direction: column; gap: 0.5rem;
+        width: 16rem; padding: 0.75rem;
+        background: var(--color-surface);
+        border-right: 1px solid var(--color-edge);
+    }
+    .app-shell__header {
+        grid-area: header;
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+        height: 3.5rem; padding-inline: 1rem;
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-edge);
+    }
+    .app-shell__main { grid-area: main; overflow: auto; padding: 1.5rem; }
+
+    /* Collapsed sidebar (toggle the class via JS for a mini-rail). */
+    .app-shell.is-collapsed { grid-template-columns: 0 1fr; }
+    .app-shell.is-collapsed .app-shell__sidebar { width: 0; padding-inline: 0; overflow: hidden; }
+
+    /* ---- Footer ------------------------------------------------------ */
+    .footer {
+        border-top: 1px solid var(--color-edge);
+        color: var(--color-fg-muted);
+        padding-block: 2rem;
+    }
+}

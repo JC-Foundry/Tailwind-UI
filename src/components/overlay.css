@@ -1,0 +1,83 @@
+/* =====================================================================
+   COMPONENT · OVERLAYS
+   tooltip (CSS, data-attr) · popover · offcanvas · banner · btn-close
+   Behaviour for popover/offcanvas comes from interactive/ui.js.
+   ===================================================================== */
+@layer components {
+    /* ---- Close button (shared: modal / offcanvas / dismissible alert) - */
+    .btn-close {
+        display: inline-grid; place-items: center;
+        width: 1.75rem; height: 1.75rem; padding: 0;
+        border: 0; border-radius: var(--radius-md);
+        background: none; color: var(--color-fg-muted); cursor: pointer;
+        font-size: 1.1rem; line-height: 1;
+    }
+    .btn-close::before { content: "\00d7"; }
+    .btn-close:hover { background: var(--color-surface-2); color: var(--color-fg); }
+
+    /* ---- Tooltip (pure CSS, zero-JS) --------------------------------
+       <button data-tooltip="Save" data-tooltip-pos="top">…</button> */
+    [data-tooltip] { position: relative; }
+    [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute; z-index: var(--z-tooltip);
+        left: 50%; bottom: calc(100% + 0.4rem); transform: translateX(-50%) scale(0.96);
+        padding: 0.3rem 0.55rem; white-space: nowrap;
+        background: var(--color-surface-2); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-radius: var(--radius-md);
+        font-size: 0.75rem; box-shadow: var(--elevation-3);
+        opacity: 0; pointer-events: none;
+        transition: opacity var(--duration-fast) var(--ease-standard), transform var(--duration-fast) var(--ease-standard);
+    }
+    [data-tooltip]:hover::after, [data-tooltip]:focus-visible::after { opacity: 1; transform: translateX(-50%) scale(1); }
+    [data-tooltip-pos="bottom"]::after { bottom: auto; top: calc(100% + 0.4rem); }
+
+    /* ---- Popover (JS-toggled .show) ---------------------------------- */
+    .popover {
+        position: absolute; z-index: var(--z-popover);
+        display: none; max-width: 20rem; padding: 0.85rem 1rem;
+        background: var(--color-surface); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-radius: var(--radius-lg);
+        box-shadow: var(--elevation-4);
+    }
+    .popover.show { display: block; }
+    .popover-header { font-weight: var(--weight-semibold); margin-bottom: 0.25rem; }
+    .popover-body { color: var(--color-fg-muted); font-size: 0.9rem; }
+
+    /* ---- Offcanvas (drawer) ------------------------------------------ */
+    .offcanvas-backdrop {
+        position: fixed; inset: 0; z-index: var(--z-drawer);
+        display: none; background: rgb(3 6 12 / 0.6);
+    }
+    .offcanvas-backdrop.show { display: block; }
+    .offcanvas {
+        position: fixed; z-index: calc(var(--z-drawer) + 1);
+        display: flex; flex-direction: column;
+        background: var(--color-surface); color: var(--color-fg);
+        box-shadow: var(--elevation-5);
+        transition: transform var(--duration-slow) var(--ease-out);
+    }
+    .offcanvas-start  { top: 0; bottom: 0; left: 0;  width: min(20rem, 90vw);  transform: translateX(-100%); border-right: 1px solid var(--color-edge); }
+    .offcanvas-end    { top: 0; bottom: 0; right: 0; width: min(20rem, 90vw);  transform: translateX(100%);  border-left: 1px solid var(--color-edge); }
+    .offcanvas-top    { top: 0; left: 0; right: 0; height: min(16rem, 80vh);   transform: translateY(-100%); border-bottom: 1px solid var(--color-edge); }
+    .offcanvas-bottom { bottom: 0; left: 0; right: 0; height: min(16rem, 80vh);transform: translateY(100%);  border-top: 1px solid var(--color-edge); }
+    .offcanvas.show { transform: none; }
+    .offcanvas-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-edge); }
+    .offcanvas-title { margin: 0; font-size: 1.1rem; }
+    .offcanvas-body { padding: 1.25rem; overflow: auto; }
+    @media (prefers-reduced-motion: reduce) { .offcanvas { transition: none; } }
+
+    /* ---- Banner (announcement bar) ----------------------------------- */
+    .banner {
+        display: flex; align-items: center; justify-content: center; gap: 0.75rem;
+        padding: 0.6rem 1rem; text-align: center; font-size: 0.9rem;
+        background: color-mix(in srgb, var(--accent) var(--mix-subtle), var(--color-surface));
+        border-bottom: 1px solid color-mix(in srgb, var(--accent) var(--mix-border), transparent);
+        color: var(--color-fg);
+    }
+    .banner .btn-close { margin-left: auto; }
+
+    /* Dismissible alerts (pairs with data-dismiss in ui.js). */
+    .alert-dismissible { display: flex; align-items: flex-start; gap: 0.75rem; }
+    .alert-dismissible .btn-close { margin-left: auto; }
+}

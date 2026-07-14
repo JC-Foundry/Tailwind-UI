@@ -1,0 +1,40 @@
+/* =====================================================================
+   APP ENTRY TEMPLATE — copy into your project (e.g. Styles/site.css)
+   ---------------------------------------------------------------------
+   This is the ONLY styling file most apps need to author. Point the
+   @import at wherever the bundle lives (package name, or a vendor path),
+   set your brand colours, and compile:
+
+       tailwindcss -i ./site.css -o ./wwwroot/css/site.css --minify
+   ===================================================================== */
+
+/* 1 · The bundle (Tailwind + core + motion). */
+@import "jc-tailwind-ui";
+/* Optional behavioural components — delete if unused: */
+/* @import "jc-tailwind-ui/interactive"; */
+
+/* 2 · Tell Tailwind which markup to scan for utility classes. */
+@source "./**/*.{html,cshtml,razor}";
+
+/* 3 · Your brand — override the defaults. Only list what you change. */
+@theme {
+    --color-primary: #2563eb;  --color-primary-light: #5c8bf0;  --color-primary-dark: #1e40af;  --color-primary-fg: #ffffff;
+    --color-secondary: #5b6b8c; --color-secondary-light: #7d8caa; --color-secondary-dark: #414e68; --color-secondary-fg: #ffffff;
+    --color-tertiary: #0ea5e9;  --color-tertiary-light: #38bdf8;  --color-tertiary-dark: #0369a1;  --color-tertiary-fg: #04252e;
+    --color-info: #0891b2;      --color-info-light: #22bcd8;      --color-info-dark: #0b6b82;      --color-info-fg: #04252e;
+
+    /* Add brand-new colours here — they auto-get bg-/text-/border-/ring- utilities: */
+    /* --color-monappoly: #b91c1c; --color-monappoly-light: #f87171; --color-monappoly-dark: #7f1d1d; --color-monappoly-fg: #fff; */
+}
+
+/* 4 · The app accent (drives every untoned treatment). Static here, or set
+       dynamically per request on <body style="--accent:…; --accent-fg:…"> */
+:root { --accent: var(--color-primary); --accent-fg: var(--color-primary-fg); }
+
+/* 5 · A custom colour needs ONE tone rule to unlock every treatment for it: */
+/* .tone-monappoly {
+       --t: var(--color-monappoly);
+       --t-l: var(--color-monappoly-light);
+       --t-d: var(--color-monappoly-dark);
+       --t-fg: var(--color-monappoly-fg);
+   } */

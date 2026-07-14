@@ -1,0 +1,55 @@
+/* =====================================================================
+   CORE · BOOTSTRAP-STYLE PER-TYPE SHORTHANDS
+   ---------------------------------------------------------------------
+   Guessable colour classes for the eight BUILT-IN types, so a Bootstrap-
+   familiar dev types what they expect:
+
+       <button class="btn btn-primary">      <div class="alert alert-danger">
+       <button class="btn btn-outline-info">  <span class="badge text-bg-success">
+
+   These are thin wrappers over the tone engine (they just set --t*, then the
+   base treatment applies). For a CUSTOM colour, use the engine directly —
+   `.btn.btn-solid.tone-brand` — or add one `.btn-brand` rule mirroring a
+   block below. Everything here is built-in-only by design; the engine stays
+   the single source of truth.
+   ===================================================================== */
+@layer components {
+    /* -- Per-type tone assignment (one place) -------------------------- */
+    .btn-primary, .btn-outline-primary, .btn-soft-primary, .alert-primary, .text-bg-primary       { --t: var(--color-primary);   --t-l: var(--color-primary-light);   --t-d: var(--color-primary-dark);   --t-fg: var(--color-primary-fg); }
+    .btn-secondary, .btn-outline-secondary, .btn-soft-secondary, .alert-secondary, .text-bg-secondary { --t: var(--color-secondary); --t-l: var(--color-secondary-light); --t-d: var(--color-secondary-dark); --t-fg: var(--color-secondary-fg); }
+    .btn-tertiary, .btn-outline-tertiary, .btn-soft-tertiary, .alert-tertiary, .text-bg-tertiary   { --t: var(--color-tertiary);  --t-l: var(--color-tertiary-light);  --t-d: var(--color-tertiary-dark);  --t-fg: var(--color-tertiary-fg); }
+    .btn-info, .btn-outline-info, .btn-soft-info, .alert-info, .text-bg-info                       { --t: var(--color-info);      --t-l: var(--color-info-light);      --t-d: var(--color-info-dark);      --t-fg: var(--color-info-fg); }
+    .btn-success, .btn-outline-success, .btn-soft-success, .alert-success, .text-bg-success         { --t: var(--color-success);   --t-l: var(--color-success-light);   --t-d: var(--color-success-dark);   --t-fg: var(--color-success-fg); }
+    .btn-warning, .btn-outline-warning, .btn-soft-warning, .alert-warning, .text-bg-warning         { --t: var(--color-warning);   --t-l: var(--color-warning-light);   --t-d: var(--color-warning-dark);   --t-fg: var(--color-warning-fg); }
+    .btn-danger, .btn-outline-danger, .btn-soft-danger, .alert-danger, .text-bg-danger             { --t: var(--color-danger);    --t-l: var(--color-danger-light);    --t-d: var(--color-danger-dark);    --t-fg: var(--color-danger-fg); }
+    .btn-light, .btn-outline-light, .btn-soft-light, .alert-light, .text-bg-light                   { --t: var(--color-light);     --t-l: var(--color-light-light);     --t-d: var(--color-light-dark);     --t-fg: var(--color-light-fg); }
+
+    /* -- Solid buttons ------------------------------------------------- */
+    .btn-primary, .btn-secondary, .btn-tertiary, .btn-info, .btn-success, .btn-warning, .btn-danger, .btn-light
+    { background: var(--t); color: var(--t-fg); }
+    .btn-primary:hover, .btn-secondary:hover, .btn-tertiary:hover, .btn-info:hover, .btn-success:hover, .btn-warning:hover, .btn-danger:hover, .btn-light:hover
+    { background: var(--t-d); }
+
+    /* -- Outline buttons ----------------------------------------------- */
+    .btn-outline-primary, .btn-outline-secondary, .btn-outline-tertiary, .btn-outline-info, .btn-outline-success, .btn-outline-warning, .btn-outline-danger, .btn-outline-light
+    { background: transparent; color: var(--t-l); border-color: var(--t); }
+    .btn-outline-primary:hover, .btn-outline-secondary:hover, .btn-outline-tertiary:hover, .btn-outline-info:hover, .btn-outline-success:hover, .btn-outline-warning:hover, .btn-outline-danger:hover, .btn-outline-light:hover
+    { background: color-mix(in srgb, var(--t) var(--mix-outline-hover), transparent); }
+
+    /* -- Soft buttons (JC extension) ----------------------------------- */
+    .btn-soft-primary, .btn-soft-secondary, .btn-soft-tertiary, .btn-soft-info, .btn-soft-success, .btn-soft-warning, .btn-soft-danger, .btn-soft-light
+    { background: color-mix(in srgb, var(--t) var(--mix-soft), transparent); color: var(--t-l); }
+    .btn-soft-primary:hover, .btn-soft-secondary:hover, .btn-soft-tertiary:hover, .btn-soft-info:hover, .btn-soft-success:hover, .btn-soft-warning:hover, .btn-soft-danger:hover, .btn-soft-light:hover
+    { background: color-mix(in srgb, var(--t) var(--mix-soft-hover), transparent); }
+
+    /* -- Alerts -------------------------------------------------------- */
+    .alert-primary, .alert-secondary, .alert-tertiary, .alert-info, .alert-success, .alert-warning, .alert-danger, .alert-light {
+        background: color-mix(in srgb, var(--t) var(--mix-subtle), transparent);
+        border-color: color-mix(in srgb, var(--t) var(--mix-border), transparent);
+        color: var(--t-l);
+    }
+
+    /* -- text-bg-{type} (Bootstrap 5.3): solid fill + readable fg ------ */
+    .text-bg-primary, .text-bg-secondary, .text-bg-tertiary, .text-bg-info, .text-bg-success, .text-bg-warning, .text-bg-danger, .text-bg-light
+    { background-color: var(--t); color: var(--t-fg); }
+}

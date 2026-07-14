@@ -1,31 +1,34 @@
-@* Example Razor markup using JC Tailwind UI semantic classes.
-   Works with ASP.NET's tag/validation helpers out of the box. *@
+@* Example Razor markup using JC Tailwind UI tone + treatment classes.
+   Works with ASP.NET tag/validation helpers out of the box. *@
 @model LoginViewModel
 
-<div class="section">
-  <div class="card max-w-md mx-auto">
-    <div class="card-header">Sign in</div>
-    <form asp-action="Login" method="post" class="card-body flex flex-col gap-4">
-      <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="container-page section">
+  <div class="card" style="max-width:28rem; margin-inline:auto;">
+    <h2>Sign in</h2>
 
-      <div class="form-group">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="input" placeholder="you@example.com" />
+    <form asp-action="Login" method="post" style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
+      <div asp-validation-summary="ModelOnly" class="alert alert-accent tone-danger"></div>
+
+      <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" placeholder="you@example.com" />
         <span asp-validation-for="Email" class="field-validation-error"></span>
       </div>
 
-      <div class="form-group">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" class="input" type="password" />
+      <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
         <span asp-validation-for="Password" class="field-validation-error"></span>
       </div>
 
-      <div class="flex items-center gap-2">
-        <input asp-for="RememberMe" class="checkbox" />
-        <label asp-for="RememberMe" class="form-label"></label>
-      </div>
+      <label style="display:flex; align-items:center; gap:.5rem; margin:0;">
+        <span class="switch" data-switch-name="RememberMe"></span> Remember me
+      </label>
 
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <div style="display:flex; justify-content:flex-end; gap:.5rem;">
+        <button type="button" class="btn btn-soft">Cancel</button>
+        <button type="submit" class="btn btn-solid">Sign in</button>
+      </div>
     </form>
   </div>
 </div>

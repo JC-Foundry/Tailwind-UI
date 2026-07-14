@@ -1,76 +1,808 @@
 <!DOCTYPE html>
-<html lang="en-GB" class="">
+<html lang="en-GB">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JC Tailwind UI — demo</title>
+  <title>JC Tailwind UI — kitchen sink</title>
   <link rel="stylesheet" href="./output.css" />
+  <!-- Reveal anti-flash: set the hidden-first state before paint ONLY when the
+       JS scrub path will run (i.e. no native scroll-timeline). Edge/Chrome keep
+       the native path untouched. -->
+  <script>
+    if (window.CSS && CSS.supports && !CSS.supports('animation-timeline','view()') &&
+        !matchMedia('(prefers-reduced-motion: reduce)').matches)
+      document.documentElement.classList.add('js-reveal');
+  </script>
 </head>
-<body class="page-shell">
-  <nav class="navbar">
-    <span class="navbar-brand">JC Tailwind UI</span>
-    <div class="ml-auto flex gap-2">
-      <button class="btn btn-ghost btn-sm" onclick="document.documentElement.classList.toggle('dark')">
-        Toggle theme
-      </button>
+<body>
+
+  <!-- ===================== HEADER + ACCENT SWITCHER ===================== -->
+  <header class="ks-toc">
+    <div class="container-page flex flex-wrap items-center gap-3" style="min-height:3.5rem; padding-block:.6rem;">
+      <strong style="font-size:1.05rem;">JC Tailwind UI</strong>
+      <span class="badge badge-soft tone-tertiary">kitchen sink</span>
+      <div class="flex flex-wrap items-center gap-1" style="margin-left:auto;">
+        <span class="ks-label" style="margin:0 .4rem 0 0;">accent →</span>
+        <button class="btn btn-sm btn-solid tone-primary"   onclick="setAccent('primary')">primary</button>
+        <button class="btn btn-sm btn-solid tone-secondary" onclick="setAccent('secondary')">secondary</button>
+        <button class="btn btn-sm btn-solid tone-tertiary"  onclick="setAccent('tertiary')">tertiary</button>
+        <button class="btn btn-sm btn-solid tone-info"      onclick="setAccent('info')">info</button>
+        <button class="btn btn-sm btn-solid tone-success"   onclick="setAccent('success')">success</button>
+        <button class="btn btn-sm btn-solid tone-warning"   onclick="setAccent('warning')">warning</button>
+        <button class="btn btn-sm btn-solid tone-danger"    onclick="setAccent('danger')">danger</button>
+        <button class="btn btn-sm btn-solid tone-monappoly" onclick="setAccent('monappoly')">custom</button>
+      </div>
     </div>
-  </nav>
+    <!-- jump links -->
+    <div class="container-page flex flex-wrap gap-1" style="padding-bottom:.6rem;">
+      <a class="chip" href="#palette">Palette</a>
+      <a class="chip" href="#buttons">Buttons</a>
+      <a class="chip" href="#badges">Badges &amp; chips</a>
+      <a class="chip" href="#cards">Cards</a>
+      <a class="chip" href="#alerts">Alerts</a>
+      <a class="chip" href="#gradients">Gradients &amp; tiles</a>
+      <a class="chip" href="#hero">Hero</a>
+      <a class="chip" href="#variants">Tone variants</a>
+      <a class="chip" href="#type">Typography</a>
+      <a class="chip" href="#forms">Forms</a>
+      <a class="chip" href="#motion">Motion</a>
+      <a class="chip" href="#nav">Nav</a>
+      <a class="chip" href="#lists">Lists &amp; tables</a>
+      <a class="chip" href="#forms2">Form controls</a>
+      <a class="chip" href="#feedback">Feedback</a>
+      <a class="chip" href="#data">Data</a>
+      <a class="chip" href="#overlays">Overlays</a>
+      <a class="chip" href="#accordion">Accordion</a>
+      <a class="chip" href="#utilities">Utilities</a>
+      <a class="chip" href="#marketing">Marketing</a>
+      <a class="chip" href="#story">Scroll story</a>
+      <a class="chip" href="#interactive">Interactive</a>
+    </div>
+  </header>
 
-  <main class="section flex flex-col gap-8">
-    <section class="flex flex-wrap items-center gap-3">
-      <button class="btn btn-primary">Save</button>
-      <button class="btn btn-secondary">Cancel</button>
-      <button class="btn btn-danger">Delete</button>
-      <button class="btn btn-outline-primary">Edit</button>
-      <button class="btn btn-ghost">Close</button>
-    </section>
+  <main class="container-page">
 
-    <section class="flex flex-wrap gap-2">
-      <span class="badge badge-success">Live</span>
-      <span class="badge badge-warning">Pending</span>
-      <span class="badge badge-danger">Failed</span>
-      <span class="badge badge-info">Info</span>
-    </section>
+    <!-- ===================== PALETTE ===================== -->
+    <section id="palette" class="section">
+      <h2>Palette</h2>
+      <p style="color:var(--color-fg-muted);">Every bundled colour token — base / light / dark. The last row is the custom pink added by the app in one <code>@theme</code> block.</p>
 
-    <section class="flex flex-col gap-3 max-w-md">
-      <div class="alert alert-success">Saved successfully.</div>
-      <div class="alert alert-danger">Something went wrong.</div>
-    </section>
-
-    <section class="admin-grid">
-      <div class="stat-card">
-        <span class="stat-label">Revenue</span>
-        <span class="stat-value">£24,580</span>
+      <div class="ks-label" style="margin-top:1.5rem;">Surfaces</div>
+      <div class="grid gap-2" style="grid-template-columns:repeat(auto-fill,minmax(7rem,1fr));">
+        <div class="ks-swatch" style="background:var(--color-canvas);">canvas</div>
+        <div class="ks-swatch" style="background:var(--color-surface);">surface</div>
+        <div class="ks-swatch" style="background:var(--color-surface-2);">surface-2</div>
+        <div class="ks-swatch" style="background:var(--color-edge);">edge</div>
+        <div class="ks-swatch" style="background:var(--color-fg); color:var(--color-canvas);">fg</div>
+        <div class="ks-swatch" style="background:var(--color-fg-muted); color:var(--color-canvas);">fg-muted</div>
+        <div class="ks-swatch" style="background:var(--color-fg-subtle); color:var(--color-canvas);">fg-subtle</div>
       </div>
-      <div class="stat-card">
-        <span class="stat-label">Active users</span>
-        <span class="stat-value">1,204</span>
-      </div>
-      <div class="stat-card">
-        <span class="stat-label">Errors</span>
-        <span class="stat-value">3</span>
+
+      <div class="ks-label" style="margin-top:1.5rem;">Colours (base · light · dark)</div>
+      <div class="grid gap-2" style="grid-template-columns:repeat(auto-fill,minmax(7rem,1fr));">
+        <div class="ks-swatch tone-primary"   style="background:var(--t); color:var(--t-fg);">primary</div>
+        <div class="ks-swatch" style="background:var(--color-primary-light); color:#000;">primary-light</div>
+        <div class="ks-swatch" style="background:var(--color-primary-dark); color:#fff;">primary-dark</div>
+        <div class="ks-swatch tone-secondary" style="background:var(--t); color:var(--t-fg);">secondary</div>
+        <div class="ks-swatch" style="background:var(--color-secondary-light); color:#000;">secondary-light</div>
+        <div class="ks-swatch" style="background:var(--color-secondary-dark); color:#fff;">secondary-dark</div>
+        <div class="ks-swatch tone-tertiary"  style="background:var(--t); color:var(--t-fg);">tertiary</div>
+        <div class="ks-swatch" style="background:var(--color-tertiary-light); color:#000;">tertiary-light</div>
+        <div class="ks-swatch" style="background:var(--color-tertiary-dark); color:#fff;">tertiary-dark</div>
+        <div class="ks-swatch tone-info"      style="background:var(--t); color:var(--t-fg);">info</div>
+        <div class="ks-swatch" style="background:var(--color-info-light); color:#000;">info-light</div>
+        <div class="ks-swatch" style="background:var(--color-info-dark); color:#fff;">info-dark</div>
+        <div class="ks-swatch tone-success"   style="background:var(--t); color:var(--t-fg);">success</div>
+        <div class="ks-swatch" style="background:var(--color-success-light); color:#000;">success-light</div>
+        <div class="ks-swatch" style="background:var(--color-success-dark); color:#fff;">success-dark</div>
+        <div class="ks-swatch tone-warning"   style="background:var(--t); color:var(--t-fg);">warning</div>
+        <div class="ks-swatch" style="background:var(--color-warning-light); color:#000;">warning-light</div>
+        <div class="ks-swatch" style="background:var(--color-warning-dark); color:#fff;">warning-dark</div>
+        <div class="ks-swatch tone-danger"    style="background:var(--t); color:var(--t-fg);">danger</div>
+        <div class="ks-swatch" style="background:var(--color-danger-light); color:#000;">danger-light</div>
+        <div class="ks-swatch" style="background:var(--color-danger-dark); color:#fff;">danger-dark</div>
+        <div class="ks-swatch tone-light"     style="background:var(--t); color:var(--t-fg);">light</div>
+        <div class="ks-swatch" style="background:var(--color-light-light); color:#000;">light-light</div>
+        <div class="ks-swatch" style="background:var(--color-light-dark); color:#000;">light-dark</div>
+        <div class="ks-swatch tone-monappoly" style="background:var(--t); color:var(--t-fg);">custom</div>
+        <div class="ks-swatch" style="background:var(--color-monappoly-light); color:#000;">custom-light</div>
+        <div class="ks-swatch" style="background:var(--color-monappoly-dark); color:#fff;">custom-dark</div>
       </div>
     </section>
 
-    <section class="card max-w-md">
-      <div class="card-header">Sign in</div>
-      <div class="card-body flex flex-col gap-4">
-        <div class="form-group">
-          <label class="form-label" for="email">Email</label>
-          <input class="input" id="email" type="email" placeholder="you@example.com" />
-          <span class="form-help">We'll never share your email.</span>
+    <!-- ===================== BUTTONS ===================== -->
+    <section id="buttons" class="section">
+      <h2>Buttons</h2>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Solid</div>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-solid tone-primary">primary</button>
+        <button class="btn btn-solid tone-secondary">secondary</button>
+        <button class="btn btn-solid tone-tertiary">tertiary</button>
+        <button class="btn btn-solid tone-info">info</button>
+        <button class="btn btn-solid tone-success">success</button>
+        <button class="btn btn-solid tone-warning">warning</button>
+        <button class="btn btn-solid tone-danger">danger</button>
+        <button class="btn btn-solid tone-light">light</button>
+        <button class="btn btn-solid tone-monappoly">custom</button>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Outline</div>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-outline tone-primary">primary</button>
+        <button class="btn btn-outline tone-secondary">secondary</button>
+        <button class="btn btn-outline tone-tertiary">tertiary</button>
+        <button class="btn btn-outline tone-info">info</button>
+        <button class="btn btn-outline tone-success">success</button>
+        <button class="btn btn-outline tone-warning">warning</button>
+        <button class="btn btn-outline tone-danger">danger</button>
+        <button class="btn btn-outline tone-light">light</button>
+        <button class="btn btn-outline tone-monappoly">custom</button>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Soft</div>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-soft tone-primary">primary</button>
+        <button class="btn btn-soft tone-secondary">secondary</button>
+        <button class="btn btn-soft tone-tertiary">tertiary</button>
+        <button class="btn btn-soft tone-info">info</button>
+        <button class="btn btn-soft tone-success">success</button>
+        <button class="btn btn-soft tone-warning">warning</button>
+        <button class="btn btn-soft tone-danger">danger</button>
+        <button class="btn btn-soft tone-light">light</button>
+        <button class="btn btn-soft tone-monappoly">custom</button>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Sizes · states · hero</div>
+      <div class="flex flex-wrap items-center gap-2">
+        <button class="btn btn-sm btn-solid">sm</button>
+        <button class="btn btn-solid">md</button>
+        <button class="btn btn-lg btn-solid">lg</button>
+        <button class="btn btn-solid" disabled>disabled</button>
+        <button class="btn btn-outline" disabled>disabled</button>
+        <button class="btn-hero tone-primary">btn-hero primary</button>
+        <button class="btn-hero tone-monappoly">btn-hero custom</button>
+      </div>
+    </section>
+
+    <!-- ===================== BADGES & CHIPS ===================== -->
+    <section id="badges" class="section">
+      <h2>Badges &amp; chips</h2>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Badge · solid</div>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-solid tone-primary">primary</span>
+        <span class="badge badge-solid tone-secondary">secondary</span>
+        <span class="badge badge-solid tone-tertiary">tertiary</span>
+        <span class="badge badge-solid tone-info">info</span>
+        <span class="badge badge-solid tone-success">success</span>
+        <span class="badge badge-solid tone-warning">warning</span>
+        <span class="badge badge-solid tone-danger">danger</span>
+        <span class="badge badge-solid tone-light">light</span>
+        <span class="badge badge-solid tone-monappoly">custom</span>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Badge · soft</div>
+      <div class="flex flex-wrap gap-2">
+        <span class="badge badge-soft tone-primary">primary</span>
+        <span class="badge badge-soft tone-secondary">secondary</span>
+        <span class="badge badge-soft tone-tertiary">tertiary</span>
+        <span class="badge badge-soft tone-info">info</span>
+        <span class="badge badge-soft tone-success">success</span>
+        <span class="badge badge-soft tone-warning">warning</span>
+        <span class="badge badge-soft tone-danger">danger</span>
+        <span class="badge badge-soft tone-light">light</span>
+        <span class="badge badge-soft tone-monappoly">custom</span>
+        <span class="badge badge-hero tone-tertiary">badge-hero</span>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Chips</div>
+      <div class="flex flex-wrap gap-2">
+        <span class="chip">plain</span>
+        <span class="chip chip-accent tone-primary">primary</span>
+        <span class="chip chip-accent tone-success">success</span>
+        <span class="chip chip-accent tone-warning">warning</span>
+        <span class="chip chip-accent tone-danger">danger</span>
+        <span class="chip chip-accent tone-monappoly">custom</span>
+      </div>
+    </section>
+
+    <!-- ===================== CARDS ===================== -->
+    <section id="cards" class="section">
+      <h2>Cards</h2>
+      <div class="grid gap-4" style="grid-template-columns:repeat(auto-fill,minmax(15rem,1fr)); margin-top:1rem;">
+        <article class="card"><h3>Plain card</h3><p style="color:var(--color-fg-muted);">Surface, edge, radius.</p></article>
+        <article class="card card-accent tone-primary"><h3>Accent · primary</h3><p style="color:var(--color-fg-muted);">Top border follows the tone.</p></article>
+        <article class="card card-accent tone-success"><h3>Accent · success</h3><p style="color:var(--color-fg-muted);">Any tone works.</p></article>
+        <article class="card card-accent tone-monappoly"><h3>Accent · custom</h3><p style="color:var(--color-fg-muted);">Including your pink.</p></article>
+        <article class="card-hero tone-tertiary"><h3>card-hero</h3><p style="opacity:.9;">Gradient + glow + hover pop.</p></article>
+        <article class="card-hero tone-monappoly"><h3>card-hero</h3><p style="opacity:.9;">Custom colour hero card.</p></article>
+      </div>
+    </section>
+
+    <!-- ===================== ALERTS ===================== -->
+    <section id="alerts" class="section">
+      <h2>Alerts</h2>
+      <div class="flex flex-col gap-2" style="margin-top:1rem;">
+        <div class="alert">Plain alert — surface + edge.</div>
+        <div class="alert alert-accent tone-info">Info: a new version is available.</div>
+        <div class="alert alert-accent tone-success">Success: your changes were saved.</div>
+        <div class="alert alert-accent tone-warning">Warning: your session expires soon.</div>
+        <div class="alert alert-accent tone-danger">Danger: something went wrong.</div>
+        <div class="alert alert-accent tone-monappoly">Custom: on-brand messaging in any colour.</div>
+      </div>
+    </section>
+
+    <!-- ===================== GRADIENTS & ICON TILES ===================== -->
+    <section id="gradients" class="section">
+      <h2>Gradients &amp; icon tiles</h2>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Tone gradient (light → base → dark)</div>
+      <div class="flex flex-wrap gap-3">
+        <span class="icon-tile gradient tone-primary">★</span>
+        <span class="icon-tile gradient tone-secondary">◆</span>
+        <span class="icon-tile gradient tone-tertiary">▲</span>
+        <span class="icon-tile gradient tone-info">ⓘ</span>
+        <span class="icon-tile gradient tone-success">✓</span>
+        <span class="icon-tile gradient tone-warning">!</span>
+        <span class="icon-tile gradient tone-danger">✕</span>
+        <span class="icon-tile gradient tone-light">☾</span>
+        <span class="icon-tile-lg icon-tile gradient tone-monappoly">♥</span>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.5rem;">Curated two-colour mixes</div>
+      <div class="grid gap-2" style="grid-template-columns:repeat(auto-fill,minmax(11rem,1fr));">
+        <div class="ks-swatch gradient-primary-info" style="color:#fff;">primary-info</div>
+        <div class="ks-swatch gradient-primary-tertiary" style="color:#fff;">primary-tertiary</div>
+        <div class="ks-swatch gradient-info-tertiary" style="color:#fff;">info-tertiary</div>
+        <div class="ks-swatch gradient-info-secondary" style="color:#fff;">info-secondary</div>
+        <div class="ks-swatch gradient-warning-danger" style="color:#fff;">warning-danger</div>
+        <div class="ks-swatch gradient-light-secondary" style="color:#000;">light-secondary</div>
+        <div class="ks-swatch gradient-primary-secondary" style="color:#fff;">primary-secondary</div>
+        <div class="ks-swatch gradient-success-info" style="color:#fff;">success-info</div>
+        <div class="ks-swatch gradient-danger-warning" style="color:#fff;">danger-warning</div>
+        <div class="ks-swatch gradient-info-primary" style="color:#fff;">info-primary</div>
+        <div class="ks-swatch gradient-primary-success" style="color:#fff;">primary-success</div>
+        <div class="ks-swatch gradient-secondary-primary" style="color:#fff;">secondary-primary</div>
+      </div>
+    </section>
+
+    <!-- ===================== HERO ===================== -->
+    <section id="hero" class="section">
+      <h2>Hero treatment</h2>
+      <p style="color:var(--color-fg-muted);"><code>.hero</code> applies the gradient + glow + hover-pop to any element. No tone = the app accent.</p>
+      <div class="grid gap-3" style="grid-template-columns:repeat(auto-fit,minmax(14rem,1fr)); margin-top:1rem;">
+        <div class="hero" style="padding:2rem; border-radius:var(--radius-2xl); text-align:center;"><strong>accent</strong><div style="opacity:.9;">no tone</div></div>
+        <div class="hero tone-success" style="padding:2rem; border-radius:var(--radius-2xl); text-align:center;"><strong>success</strong></div>
+        <div class="hero tone-warning" style="padding:2rem; border-radius:var(--radius-2xl); text-align:center;"><strong>warning</strong></div>
+        <div class="hero tone-monappoly" style="padding:2rem; border-radius:var(--radius-2xl); text-align:center;"><strong>custom</strong></div>
+      </div>
+    </section>
+
+    <!-- ===================== TONE VARIANTS ===================== -->
+    <section id="variants" class="section">
+      <h2>Tone light / dark variants</h2>
+      <p style="color:var(--color-fg-muted);">Each tone has <code>-light</code> and <code>-dark</code> forms — every treatment adapts.</p>
+      <div class="ks-label" style="margin-top:1.25rem;">primary</div>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-solid tone-primary-light">primary-light</button>
+        <button class="btn btn-solid tone-primary">primary</button>
+        <button class="btn btn-solid tone-primary-dark">primary-dark</button>
+        <span class="icon-tile gradient tone-primary-light">◐</span>
+        <span class="icon-tile gradient tone-primary">●</span>
+        <span class="icon-tile gradient tone-primary-dark">◑</span>
+      </div>
+      <div class="ks-label" style="margin-top:1.25rem;">custom (pink)</div>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-solid tone-monappoly-light">custom-light</button>
+        <button class="btn btn-solid tone-monappoly">custom</button>
+        <button class="btn btn-solid tone-monappoly-dark">custom-dark</button>
+        <span class="badge badge-soft tone-monappoly-light">light</span>
+        <span class="badge badge-soft tone-monappoly">base</span>
+        <span class="badge badge-soft tone-monappoly-dark">dark</span>
+      </div>
+    </section>
+
+    <!-- ===================== TYPOGRAPHY ===================== -->
+    <section id="type" class="section">
+      <h2>Typography &amp; base tags</h2>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(18rem,1fr)); margin-top:1rem;">
+        <div>
+          <h1>Heading 1</h1>
+          <h2>Heading 2</h2>
+          <h3>Heading 3</h3>
+          <h4>Heading 4</h4>
+          <h5>Heading 5</h5>
+          <h6>Heading 6</h6>
+          <p>Body text with a <a href="#type">themed link</a>, <strong>bold</strong>, <mark>highlight</mark> and inline <code>code()</code>.</p>
+          <blockquote>A blockquote uses the accent for its rule.</blockquote>
         </div>
-        <div class="form-group">
-          <label class="form-label" for="pw">Password</label>
-          <input class="input input-validation-error" id="pw" type="password" />
-          <span class="field-validation-error">Password is required.</span>
+        <div>
+          <ul><li>Unordered item</li><li>Another item</li></ul>
+          <ol><li>Ordered item</li><li>Second item</li></ol>
+          <pre><code>function hi() {
+  return "themed pre block";
+}</code></pre>
+          <hr />
+          <table>
+            <thead><tr><th>Name</th><th>Role</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Ada</td><td>Engineer</td><td><span class="badge badge-soft tone-success">active</span></td></tr>
+              <tr><td>Alan</td><td>Designer</td><td><span class="badge badge-soft tone-warning">away</span></td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
-      <div class="card-footer flex justify-end gap-2">
-        <button class="btn btn-ghost">Cancel</button>
-        <button class="btn btn-primary">Sign in</button>
+    </section>
+
+    <!-- ===================== FORMS ===================== -->
+    <section id="forms" class="section">
+      <h2>Forms</h2>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); margin-top:1rem;">
+        <div class="flex flex-col gap-3">
+          <div><label>Text</label><input type="text" placeholder="you@example.com" /></div>
+          <div><label>Select</label><select><option>One</option><option>Two</option></select></div>
+          <div><label>Textarea</label><textarea rows="3" placeholder="Notes…"></textarea></div>
+        </div>
+        <div class="flex flex-col gap-3">
+          <div>
+            <label>Invalid input (ASP.NET class)</label>
+            <input type="text" class="input-validation-error" value="not-an-email" />
+            <span class="field-validation-error">Enter a valid email address.</span>
+          </div>
+          <div class="alert alert-accent tone-danger">
+            <strong>validation-summary</strong>
+            <ul class="validation-summary-errors" style="margin:.35rem 0 0;"><li>Email is required.</li><li>Password is too short.</li></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MOTION · REVEAL ===================== -->
+    <section id="motion" class="section">
+      <h2>Motion — reveal on scroll</h2>
+      <p style="color:var(--color-fg-muted);">Scroll these into view. Degrades to the final visible state without scroll-timeline support / under reduced-motion.</p>
+      <div class="reveal-stagger grid gap-3" style="grid-template-columns:repeat(auto-fit,minmax(10rem,1fr)); margin-top:1rem;">
+        <div class="card reveal reveal-fade"  style="--i:0;">reveal-fade</div>
+        <div class="card reveal reveal-rise"  style="--i:1;">reveal-rise</div>
+        <div class="card reveal reveal-scale" style="--i:2;">reveal-scale</div>
+        <div class="card reveal reveal-left"  style="--i:3;">reveal-left</div>
+        <div class="card reveal reveal-right" style="--i:4;">reveal-right</div>
+      </div>
+    </section>
+
+    <!-- ===================== STRUCTURE / NAV ===================== -->
+    <section id="nav" class="section">
+      <h2>Navigation &amp; structure</h2>
+      <nav class="breadcrumb" style="margin-top:1rem;">
+        <span class="breadcrumb-item"><a href="#nav">Home</a></span>
+        <span class="breadcrumb-item"><a href="#nav">Library</a></span>
+        <span class="breadcrumb-item active">Data</span>
+      </nav>
+
+      <div class="page-header" style="margin-top:1rem;">
+        <div><h3 class="page-header__title">Page header</h3><p class="page-header__subtitle">Title, subtitle and actions.</p></div>
+        <div class="page-header__actions"><button class="btn btn-soft-secondary">Secondary</button><button class="btn btn-primary">Primary</button></div>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Tabs (JS)</div>
+      <ul class="nav nav-tabs">
+        <li class="nav-item"><button class="nav-link active" data-tab-target="#tab-1">Overview</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab-target="#tab-2">Details</button></li>
+        <li class="nav-item"><button class="nav-link" data-tab-target="#tab-3">Activity</button></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab-1"><p>Overview pane — tabs are wired by <code>initUI()</code>.</p></div>
+        <div class="tab-pane" id="tab-2"><p>Details pane.</p></div>
+        <div class="tab-pane" id="tab-3"><p>Activity pane.</p></div>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Pills · button-group · segmented</div>
+      <div class="flex flex-wrap items-center gap-4">
+        <ul class="nav nav-pills">
+          <li class="nav-item"><a class="nav-link active">Pills</a></li>
+          <li class="nav-item"><a class="nav-link">Two</a></li>
+          <li class="nav-item"><a class="nav-link">Three</a></li>
+        </ul>
+        <div class="btn-group">
+          <button class="btn btn-outline-secondary">Left</button>
+          <button class="btn btn-outline-secondary">Mid</button>
+          <button class="btn btn-outline-secondary">Right</button>
+        </div>
+        <div class="segmented">
+          <button class="btn btn-sm active">Day</button>
+          <button class="btn btn-sm">Week</button>
+          <button class="btn btn-sm">Month</button>
+        </div>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">Dropdown (JS)</div>
+      <div class="dropdown">
+        <button class="btn btn-soft-primary dropdown-toggle">Menu</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-header">Account</div>
+          <button class="dropdown-item">Profile</button>
+          <button class="dropdown-item active">Settings</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item danger">Sign out</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== LISTS & TABLES ===================== -->
+    <section id="lists" class="section">
+      <h2>List group &amp; tables</h2>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(18rem,1fr)); margin-top:1rem;">
+        <ul class="list-group">
+          <li class="list-group-item">Plain item</li>
+          <li class="list-group-item active">Active item</li>
+          <li class="list-group-item list-group-item-success">Success item</li>
+          <li class="list-group-item list-group-item-danger">Danger item</li>
+          <li class="list-group-item">Item with <span class="badge text-bg-primary" style="margin-left:auto;">3</span></li>
+        </ul>
+
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead><tr><th class="sortable asc">Name</th><th>Role</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Ada</td><td>Engineer</td><td><span class="badge badge-soft tone-success">active</span></td></tr>
+              <tr><td>Alan</td><td>Designer</td><td><span class="badge badge-soft tone-warning">away</span></td></tr>
+              <tr><td>Grace</td><td>Lead</td><td><span class="badge badge-soft tone-danger">offline</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FORMS (Bootstrap) ===================== -->
+    <section id="forms2" class="section">
+      <h2>Forms <span class="badge badge-soft tone-tertiary">Bootstrap classes</span></h2>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(18rem,1fr)); margin-top:1rem;">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Email <span class="required">*</span></label>
+            <div class="input-group">
+              <span class="input-group-text">@</span>
+              <input class="form-control" placeholder="you@example.com" />
+            </div>
+            <span class="form-text">We'll never share it.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Role</label>
+            <select class="form-select"><option>Engineer</option><option>Designer</option></select>
+          </div>
+          <div class="form-floating form-group">
+            <input class="form-control" id="ff" placeholder="Name" />
+            <label for="ff">Floating label</label>
+          </div>
+        </div>
+        <div>
+          <div class="form-check"><input class="form-check-input" type="checkbox" id="c1" checked /><label class="form-check-label" for="c1">Checkbox</label></div>
+          <div class="form-check"><input class="form-check-input" type="radio" name="r" id="r1" checked /><label class="form-check-label" for="r1">Radio one</label></div>
+          <div class="form-check"><input class="form-check-input" type="radio" name="r" id="r2" /><label class="form-check-label" for="r2">Radio two</label></div>
+          <div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="s1" checked /><label class="form-check-label" for="s1">Switch</label></div>
+          <div class="form-group" style="margin-top:.75rem;"><label class="form-label">Range</label><input class="form-range" type="range" value="60" /></div>
+          <div class="form-group">
+            <label class="form-label">Invalid</label>
+            <input class="form-control is-invalid" value="bad" />
+            <div class="invalid-feedback">Please fix this field.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FEEDBACK ===================== -->
+    <section id="feedback" class="section">
+      <h2>Feedback</h2>
+      <div class="ks-label" style="margin-top:1.25rem;">Progress</div>
+      <div class="stack" style="--gap:.6rem; max-width:32rem;">
+        <div class="progress"><div class="progress-bar" style="width:65%">65%</div></div>
+        <div class="progress"><div class="progress-bar tone-success" style="width:45%"></div></div>
+        <div class="progress"><div class="progress-bar tone-danger progress-bar-striped progress-bar-animated" style="width:80%"></div></div>
+      </div>
+      <div class="ks-label" style="margin-top:1.25rem;">Spinners · skeleton</div>
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="spinner-border"></span>
+        <span class="spinner-border spinner-sm tone-success" style="color:var(--color-success)"></span>
+        <span class="spinner-grow"></span>
+        <div style="width:14rem;">
+          <div class="skeleton" style="height:2.5rem; margin-bottom:.5rem;"></div>
+          <div class="skeleton skeleton-text" style="width:80%;"></div>
+          <div class="skeleton skeleton-text" style="width:60%;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DATA DISPLAY ===================== -->
+    <section id="data" class="section">
+      <h2>Data display</h2>
+      <div class="grid gap-6" style="grid-template-columns:repeat(auto-fit,minmax(16rem,1fr)); margin-top:1rem;">
+        <div class="stack" style="--gap:1rem;">
+          <div class="cluster">
+            <span class="avatar avatar-status">JC</span>
+            <span class="avatar avatar-status busy" style="background:var(--color-primary); color:#fff;">AD</span>
+            <div class="avatar-group">
+              <span class="avatar avatar-sm" style="background:var(--color-tertiary);color:#fff;">A</span>
+              <span class="avatar avatar-sm" style="background:var(--color-success);color:#fff;">B</span>
+              <span class="avatar avatar-sm" style="background:var(--color-warning);color:#000;">C</span>
+            </div>
+          </div>
+          <div class="cluster">
+            <span class="tag tone-primary">tag <button class="tag__remove">×</button></span>
+            <span class="tag tone-success">done <button class="tag__remove">×</button></span>
+            <span>Press <kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+          </div>
+          <dl class="description-list">
+            <dt>Plan</dt><dd>Pro</dd>
+            <dt>Seats</dt><dd>12</dd>
+            <dt>Renews</dt><dd>Jan 2027</dd>
+          </dl>
+        </div>
+
+        <div class="stat"><span class="stat-label">Revenue</span><span class="stat-value">£24,580</span><span class="stat-trend up">▲ 12%</span></div>
+
+        <ol class="timeline">
+          <li class="timeline-item tone-success"><div class="timeline-time">09:00</div>Deployed v2.1</li>
+          <li class="timeline-item tone-warning"><div class="timeline-time">11:20</div>Scaling event</li>
+          <li class="timeline-item"><div class="timeline-time">14:05</div>All nominal</li>
+        </ol>
+      </div>
+
+      <div class="empty-state" style="margin-top:1.5rem;">
+        <div class="empty-state__icon">📭</div>
+        <strong>Nothing here yet</strong>
+        <p>Create your first item to get started.</p>
+        <button class="btn btn-primary">New item</button>
+      </div>
+    </section>
+
+    <!-- ===================== OVERLAYS ===================== -->
+    <section id="overlays" class="section">
+      <h2>Overlays</h2>
+      <div class="flex flex-wrap items-center gap-3" style="margin-top:1rem;">
+        <button class="btn btn-soft" data-tooltip="Pure-CSS tooltip" data-tooltip-pos="top">Hover me</button>
+        <span style="position:relative;">
+          <button class="btn btn-soft" data-popover-toggle="#pop-1">Popover</button>
+          <div class="popover" id="pop-1" style="top:calc(100% + .4rem); left:0;">
+            <div class="popover-header">Popover title</div>
+            <div class="popover-body">Toggled by ui.js; click away to close.</div>
+          </div>
+        </span>
+        <button class="btn btn-soft" data-offcanvas-open="oc-1">Open drawer</button>
+      </div>
+    </section>
+
+    <!-- ===================== ACCORDION ===================== -->
+    <section id="accordion" class="section">
+      <h2>Accordion</h2>
+      <div class="ks-label" style="margin-top:1rem;">Bootstrap markup (JS, single-open)</div>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-button">What is JC Tailwind UI?</button>
+          <div class="accordion-collapse show"><div class="accordion-body">A reusable Tailwind v4 design system with a tone/treatment engine.</div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-button collapsed">Does any colour work?</button>
+          <div class="accordion-collapse"><div class="accordion-body">Yes — built-ins and custom colours compose with every treatment.</div></div>
+        </div>
+      </div>
+      <div class="ks-label" style="margin-top:1.25rem;">Native &lt;details&gt; (zero JS)</div>
+      <div class="accordion">
+        <details class="accordion-item" open><summary>Works without JavaScript</summary><div>Uses the native disclosure element.</div></details>
+        <details class="accordion-item"><summary>Also themed</summary><div>Same look, no script.</div></details>
+      </div>
+    </section>
+
+    <!-- ===================== UTILITIES ===================== -->
+    <section id="utilities" class="section">
+      <h2>Utilities</h2>
+
+      <div class="ks-label" style="margin-top:1rem;">text-gradient</div>
+      <h3 class="text-gradient tone-primary" style="font-size:2.5rem;">Gradient headline</h3>
+
+      <div class="ks-label" style="margin-top:1.25rem;">glass — needs a backdrop to frost (here, over a gradient)</div>
+      <div class="gradient tone-monappoly" style="padding:2.5rem; border-radius:var(--radius-xl);">
+        <div class="glass" style="padding:1.5rem; border-radius:var(--radius-lg); max-width:22rem;">
+          <strong>Frosted glass</strong>
+          <p style="color:var(--color-fg-muted); margin:.25rem 0 0;">Backdrop-blurred over the gradient behind it — that's what glass does.</p>
+        </div>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.25rem;">elevation-1…5 · gradient-border</div>
+      <div class="flex flex-wrap gap-3">
+        <div class="card elevation-1" style="padding:1rem;">e1</div>
+        <div class="card elevation-2" style="padding:1rem;">e2</div>
+        <div class="card elevation-3" style="padding:1rem;">e3</div>
+        <div class="card elevation-4" style="padding:1rem;">e4</div>
+        <div class="card elevation-5" style="padding:1rem;">e5</div>
+        <div class="gradient-border tone-primary" style="padding:1rem;">gradient-border</div>
+      </div>
+    </section>
+
+    <!-- ===================== MARKETING SECTIONS ===================== -->
+    <section id="marketing" class="section">
+      <h2>Marketing sections</h2>
+
+      <div class="section-heading center" style="margin-top:1.5rem;">
+        <span class="section-heading__eyebrow">Everything you need</span>
+        <h3 class="text-gradient tone-primary" style="font-size:2rem;">Build faster</h3>
+        <p class="section-heading__lead">Composable, tone-aware building blocks for real pages.</p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature tone-primary"><span class="feature__icon">⚡</span><div class="feature__title">Fast</div><p class="feature__text">One import, done.</p></div>
+        <div class="feature tone-success"><span class="feature__icon">🎨</span><div class="feature__title">Any colour</div><p class="feature__text">Tone drives everything.</p></div>
+        <div class="feature tone-monappoly"><span class="feature__icon">🧩</span><div class="feature__title">Composable</div><p class="feature__text">Mix and match.</p></div>
+      </div>
+
+      <div class="cta tone-monappoly" style="margin-top:2rem;">
+        <div><h3 class="cta__title">Ready to build?</h3><p class="cta__text">Drop it in and go.</p></div>
+        <button class="btn btn-lg" style="background:var(--color-surface); color:var(--color-fg);">Get started</button>
+      </div>
+
+      <div class="pricing-grid" style="margin-top:2rem;">
+        <div class="pricing-card"><span class="pricing-card__name">Starter</span><div class="pricing-card__price">£0<small>/mo</small></div><ul class="pricing-card__features"><li>Core components</li><li>Dark theme</li></ul><button class="btn btn-outline-primary">Choose</button></div>
+        <div class="pricing-card featured"><span class="pricing-card__name">Pro <span class="badge text-bg-primary">Popular</span></span><div class="pricing-card__price">£12<small>/mo</small></div><ul class="pricing-card__features"><li>Everything in Starter</li><li>Interactive layer</li><li>Priority support</li></ul><button class="btn btn-primary">Choose</button></div>
+        <div class="pricing-card"><span class="pricing-card__name">Team</span><div class="pricing-card__price">£30<small>/mo</small></div><ul class="pricing-card__features"><li>Everything in Pro</li><li>Unlimited seats</li></ul><button class="btn btn-outline-primary">Choose</button></div>
+      </div>
+
+      <div class="grid gap-4" style="grid-template-columns:repeat(auto-fit,minmax(18rem,1fr)); margin-top:2rem;">
+        <div class="testimonial">
+          <p class="testimonial__quote">"Same markup, every brand. It just works."</p>
+          <div class="testimonial__author"><span class="avatar avatar-sm" style="background:var(--color-primary);color:#fff;">JC</span><div><div class="testimonial__name">J. Craik</div><div class="testimonial__role">Engineer</div></div></div>
+        </div>
+        <div class="stat-band">
+          <div><div class="stat-value text-gradient tone-primary">9</div><div class="stat-label">tones</div></div>
+          <div><div class="stat-value text-gradient tone-success">50+</div><div class="stat-label">components</div></div>
+          <div><div class="stat-value text-gradient tone-monappoly">1</div><div class="stat-label">import</div></div>
+        </div>
+      </div>
+
+      <div class="bento" style="margin-top:2rem;">
+        <div class="bento-2x2 hero tone-primary"><h3>Bento</h3><p style="opacity:.9;">A 2×2 hero tile.</p></div>
+        <div class="bento-2x1 gradient tone-success" style="color:var(--t-fg);"><strong>Wide tile</strong></div>
+        <div class="glass">Glass tile</div>
+        <div><span class="badge text-bg-warning">Small</span></div>
+        <div class="bento-2x1"><strong>Another</strong><p style="color:var(--color-fg-muted);">Filler.</p></div>
       </div>
     </section>
   </main>
+
+  <!-- ===================== SCROLLYTELL ===================== -->
+  <section id="story" class="container-page section" style="text-align:center;">
+    <span class="badge badge-soft tone-tertiary">Scroll story</span>
+    <h2 style="margin-top:.5rem;">Scrollytelling</h2>
+    <p style="color:var(--color-fg-muted); max-width:42rem; margin:.5rem auto 0;">
+      The next section <strong>pins</strong> and scrubs through three scenes. Native pure-CSS where
+      supported; a tiny JS fallback drives it in Firefox &amp; friends. <span class="ks-label" id="story-mode"></span>
+    </p>
+    <p style="color:var(--color-fg-subtle); margin-top:1rem;">↓ scroll</p>
+  </section>
+
+  <section class="scrollytell" style="--scenes:3;">
+    <div class="scrollytell-stage">
+      <div class="scene gradient tone-primary" style="--scene:0; color:var(--t-fg);">
+        <span class="badge" style="background:rgb(255 255 255 / .22);">01</span>
+        <h2 style="font-size:clamp(2rem,6vw,4.5rem);">Pull it in</h2>
+        <p style="max-width:34rem; opacity:.92; font-size:1.15rem;">One import gives you the whole system — tokens, tones, treatments, motion.</p>
+      </div>
+      <div class="scene gradient tone-success" style="--scene:1; color:var(--t-fg);">
+        <span class="badge" style="background:rgb(0 0 0 / .12);">02</span>
+        <h2 style="font-size:clamp(2rem,6vw,4.5rem);">Any colour, everywhere</h2>
+        <p style="max-width:34rem; opacity:.92; font-size:1.15rem;">Every treatment follows the current tone — swap a whole scene's colour with one class.</p>
+      </div>
+      <div class="scene gradient tone-monappoly" style="--scene:2; color:var(--t-fg);">
+        <span class="badge" style="background:rgb(255 255 255 / .22);">03</span>
+        <h2 style="font-size:clamp(2rem,6vw,4.5rem);">Even your own</h2>
+        <p style="max-width:34rem; opacity:.92; font-size:1.15rem;">This scene is your custom pink — it drops into the story like any built-in.</p>
+      </div>
+    </div>
+  </section>
+
+  <main class="container-page">
+    <!-- ===================== INTERACTIVE ===================== -->
+    <section id="interactive" class="section">
+      <h2>Interactive <span class="badge badge-soft tone-tertiary">optional layer</span></h2>
+      <p style="color:var(--color-fg-muted);">Vanilla ESM, data-attribute driven. All auto-theme to the app accent.</p>
+
+      <div class="flex flex-wrap items-center gap-3" style="margin-top:1rem;">
+        <button class="btn btn-solid" data-modal-open="ks-modal">Open modal</button>
+        <button class="btn btn-outline" data-copy="Copied from JC Tailwind UI">Copy to clipboard</button>
+        <button class="btn btn-soft" onclick="jcui.toast('Saved', { variant: 'success' })">Toast · success</button>
+        <button class="btn btn-soft" onclick="jcui.toast('Deleted', { variant: 'danger' })">Toast · danger</button>
+        <span class="switch"></span>
+        <span class="switch switch--on"></span>
+        <button class="icon-btn" title="Icon button">✎</button>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.5rem;">Inline edit</div>
+      <div class="edit-field flex items-center gap-2">
+        <span class="edit-field__view flex items-center gap-2">
+          <span>Editable value</span>
+          <button class="icon-btn" data-edit-start title="Edit">✎</button>
+        </span>
+        <span class="edit-field__form flex items-center gap-2">
+          <input type="text" value="Editable value" style="width:auto;" />
+          <button class="btn btn-sm btn-solid" data-edit-cancel>Save</button>
+          <button class="btn btn-sm btn-soft" data-edit-cancel>Cancel</button>
+        </span>
+      </div>
+
+      <div class="ks-label" style="margin-top:1.5rem;">Colour palette picker</div>
+      <div class="palette" style="max-width:20rem;">
+        <button class="swatch swatch--active" style="background:var(--color-primary);" data-swatch="primary"></button>
+        <button class="swatch" style="background:var(--color-tertiary);" data-swatch="tertiary"></button>
+        <button class="swatch" style="background:var(--color-success);" data-swatch="success"></button>
+        <button class="swatch" style="background:var(--color-warning);" data-swatch="warning"></button>
+        <button class="swatch" style="background:var(--color-danger);" data-swatch="danger"></button>
+        <button class="swatch" style="background:var(--color-monappoly);" data-swatch="monappoly"></button>
+        <input type="hidden" data-palette-input value="primary" />
+      </div>
+
+      <div class="ks-label" style="margin-top:1.5rem;">Pagination</div>
+      <ul class="pagination" style="justify-content:flex-start;">
+        <li class="page-item disabled"><a class="page-link">‹</a></li>
+        <li class="page-item active"><a class="page-link">1</a></li>
+        <li class="page-item"><a class="page-link">2</a></li>
+        <li class="page-item"><a class="page-link">3</a></li>
+        <li class="page-item"><a class="page-link">›</a></li>
+      </ul>
+    </section>
+
+    <footer class="section" style="text-align:center; color:var(--color-fg-subtle);">
+      <p>JC Tailwind UI — one engine, every colour.</p>
+    </footer>
+  </main>
+
+  <!-- Offcanvas drawer -->
+  <div class="offcanvas offcanvas-end" id="oc-1">
+    <div class="offcanvas-header">
+      <h3 class="offcanvas-title">Drawer</h3>
+      <button class="btn-close" data-offcanvas-close></button>
+    </div>
+    <div class="offcanvas-body">
+      <p style="color:var(--color-fg-muted);">Slides in from the edge; click the backdrop or press Escape to close.</p>
+      <ul class="list-group list-group-flush" style="margin-top:1rem;">
+        <li class="list-group-item list-group-item-action">Item one</li>
+        <li class="list-group-item list-group-item-action">Item two</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Back to top -->
+  <button class="back-to-top" data-back-to-top title="Back to top">↑</button>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="ks-modal">
+    <div class="modal">
+      <h3 class="modal__title">Hello</h3>
+      <p class="modal__body">A dependency-free modal, wired by data-attributes. Click the backdrop or press Escape to close.</p>
+      <div class="modal__actions">
+        <button class="btn btn-soft" data-modal-close>Close</button>
+        <button class="btn btn-solid" data-modal-close>OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import * as jcui from "../../src/interactive/ui.js";
+    import { initScrollytell } from "../../src/motion/scrollytell.js";
+    import { initReveal } from "../../src/motion/reveal.js";
+    window.jcui = jcui;
+    jcui.initUI();
+    initReveal();
+    initScrollytell();
+
+    // Live accent switch: set --accent (+ readable fg) on <body>.
+    const FG = { light: "#0f172a", warning: "#2b1a02", success: "#052e21", tertiary: "#04252e", info: "#04252e" };
+    window.setAccent = (name) => {
+      document.body.style.setProperty("--accent", `var(--color-${name})`);
+      document.body.style.setProperty("--accent-fg", FG[name] || "#ffffff");
+    };
+
+    // Label which scrollytell path is active (native vs JS fallback).
+    const native = window.CSS && CSS.supports && CSS.supports("animation-timeline", "view()");
+    document.getElementById("story-mode").textContent = native ? "· native CSS" : "· JS fallback";
+  </script>
 </body>
 </html>

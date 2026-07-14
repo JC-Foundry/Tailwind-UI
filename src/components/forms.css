@@ -1,56 +1,112 @@
-/* Forms — plan §7.5. Designed to play nicely with ASP.NET validation output. */
+/* =====================================================================
+   COMPONENT · FORMS  (Bootstrap vocabulary)
+   form-control · form-label · form-text · form-group · form-check ·
+   form-switch · form-select · form-range · input-group · form-floating ·
+   validation (is-valid / is-invalid + ASP.NET input-validation-error)
+   ===================================================================== */
 @layer components {
-  .form-group {
-    @apply mb-4 flex flex-col gap-1.5;
-  }
-  .form-label {
-    @apply text-sm font-medium text-content;
-  }
-  .form-help {
-    @apply text-xs text-content-muted;
-  }
-  .form-error {
-    @apply text-xs font-medium text-danger;
-  }
+    .form-group { margin-bottom: 1rem; }
+    .form-label { display: block; margin-bottom: 0.35rem; font-size: 0.875rem; font-weight: var(--weight-medium); color: var(--color-fg); }
+    .form-label .required { color: var(--color-danger-light); margin-left: 0.15rem; }
+    .form-text { display: block; margin-top: 0.3rem; font-size: 0.8rem; color: var(--color-fg-muted); }
 
-  /* -- Controls ------------------------------------------------------- */
-  .input,
-  .select,
-  .textarea {
-    @apply block w-full rounded-field border border-border bg-surface px-3 py-2
-           text-sm text-content shadow-sm transition-colors
-           placeholder:text-content-muted
-           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40
-           disabled:cursor-not-allowed disabled:opacity-60;
-  }
-  .textarea { @apply min-h-24 resize-y; }
-  .select   { @apply pr-8; }
+    .form-control, .form-select {
+        display: block; width: 100%;
+        min-height: var(--control-height); padding: 0.5rem var(--control-pad-x);
+        background: var(--color-surface); color: var(--color-fg);
+        border: 1px solid var(--color-edge); border-radius: var(--radius-md);
+        font: inherit; font-size: 0.9rem;
+        transition: border-color var(--duration-fast) var(--ease-standard), box-shadow var(--duration-fast) var(--ease-standard);
+    }
+    .form-control::placeholder { color: var(--color-fg-subtle); }
+    .form-control:focus, .form-select:focus {
+        outline: none; border-color: var(--accent);
+        box-shadow: 0 0 0 var(--focus-width) var(--focus-color);
+    }
+    .form-control:disabled, .form-select:disabled { opacity: 0.6; cursor: not-allowed; }
+    textarea.form-control { min-height: 5rem; resize: vertical; }
 
-  .checkbox,
-  .radio {
-    @apply h-4 w-4 border-border text-primary
-           focus:ring-2 focus:ring-primary/40 focus:ring-offset-0;
-  }
-  .checkbox { @apply rounded; }
-  .radio    { @apply rounded-full; }
+    .form-control-sm { min-height: var(--control-height-sm); padding: 0.3rem 0.6rem; font-size: 0.8rem; }
+    .form-control-lg { min-height: var(--control-height-lg); padding: 0.65rem 1rem; font-size: 1rem; }
 
-  /* -- ASP.NET validation hooks --------------------------------------
-     ASP.NET adds `input-validation-error` to invalid inputs and
-     `field-validation-error` / `validation-summary-errors` to messages. */
-  .input-validation-error,
-  .input.input-validation-error,
-  .select.input-validation-error,
-  .textarea.input-validation-error {
-    @apply border-danger focus:border-danger focus:ring-danger/40;
-  }
-  .field-validation-error {
-    @apply text-xs font-medium text-danger;
-  }
-  .validation-summary,
-  .validation-summary-errors {
-    @apply rounded-field border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger;
-  }
-  .validation-summary-errors ul { @apply list-disc pl-5; }
-  /* ASP.NET hides an empty/valid summary with this class */
-  .validation-summary-valid { @apply hidden; }
+    .form-select {
+        appearance: none; padding-right: 2.25rem;
+        background-image: linear-gradient(45deg, transparent 50%, var(--color-fg-muted) 50%), linear-gradient(135deg, var(--color-fg-muted) 50%, transparent 50%);
+        background-position: calc(100% - 1.05rem) 55%, calc(100% - 0.75rem) 55%;
+        background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+        background-repeat: no-repeat;
+    }
+
+    /* ---- Checks & radios & switch ------------------------------------ */
+    .form-check { display: flex; align-items: center; gap: 0.5rem; min-height: 1.5rem; }
+    .form-check-inline { display: inline-flex; margin-right: 1rem; }
+    .form-check-input {
+        appearance: none; -webkit-appearance: none;
+        width: 1.1rem; height: 1.1rem; padding: 0; margin: 0; box-sizing: border-box; flex-shrink: 0;
+        background: var(--color-surface); border: 1px solid var(--color-edge); cursor: pointer;
+        transition: background-color var(--duration-fast), border-color var(--duration-fast);
+    }
+    .form-check-input[type="checkbox"] { border-radius: var(--radius-sm); }
+    .form-check-input[type="radio"] { border-radius: 50%; }
+    .form-check-input:checked { background: var(--accent); border-color: var(--accent); }
+    .form-check-input[type="checkbox"]:checked { background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.7 4.3a1 1 0 0 1 0 1.4l-5 5a1 1 0 0 1-1.4 0l-2.5-2.5a1 1 0 1 1 1.4-1.4L7 8.6l4.3-4.3a1 1 0 0 1 1.4 0z'/%3e%3c/svg%3e"); background-size: 0.8rem; background-position: center; background-repeat: no-repeat; }
+    .form-check-input[type="radio"]:checked { box-shadow: inset 0 0 0 0.22rem var(--color-surface); }
+    .form-check-input:focus-visible { outline: none; box-shadow: 0 0 0 var(--focus-width) var(--focus-color); }
+    .form-check-label { cursor: pointer; }
+
+    /* Switch — a checkbox styled as a toggle track. */
+    .form-switch .form-check-input {
+        width: 2.25rem; height: 1.3rem; border-radius: var(--radius-pill);
+        position: relative; background-image: none;
+    }
+    .form-switch .form-check-input::after {
+        content: ""; position: absolute; top: 50%; left: 0.15rem;
+        width: 0.9rem; height: 0.9rem; border-radius: 50%;
+        background: var(--color-fg-muted); transform: translateY(-50%);
+        transition: transform var(--duration-base) var(--ease-pop), background-color var(--duration-base);
+    }
+    .form-switch .form-check-input:checked { background-image: none; }
+    .form-switch .form-check-input:checked::after { transform: translateY(-50%) translateX(0.95rem); background: var(--accent-fg); }
+
+    /* ---- Range ------------------------------------------------------- */
+    .form-range { width: 100%; height: 1.5rem; appearance: none; background: transparent; cursor: pointer; }
+    .form-range::-webkit-slider-runnable-track { height: 0.35rem; border-radius: var(--radius-pill); background: var(--color-surface-2); }
+    .form-range::-moz-range-track { height: 0.35rem; border-radius: var(--radius-pill); background: var(--color-surface-2); }
+    .form-range::-webkit-slider-thumb { appearance: none; margin-top: -0.35rem; width: 1.05rem; height: 1.05rem; border-radius: 50%; background: var(--accent); border: 0; }
+    .form-range::-moz-range-thumb { width: 1.05rem; height: 1.05rem; border: 0; border-radius: 50%; background: var(--accent); }
+
+    /* ---- Input group ------------------------------------------------- */
+    .input-group { display: flex; width: 100%; }
+    .input-group > .form-control, .input-group > .form-select { flex: 1 1 auto; width: 1%; }
+    .input-group > :not(:first-child) { border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left: -1px; }
+    .input-group > :not(:last-child) { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+    .input-group-text {
+        display: flex; align-items: center; padding: 0.5rem 0.75rem;
+        background: var(--color-surface-2); color: var(--color-fg-muted);
+        border: 1px solid var(--color-edge); white-space: nowrap; font-size: 0.9rem;
+    }
+
+    /* ---- Floating label ---------------------------------------------- */
+    .form-floating { position: relative; }
+    .form-floating > .form-control { padding-top: 1.25rem; padding-bottom: 0.35rem; }
+    .form-floating > .form-control::placeholder { color: transparent; }
+    .form-floating > label {
+        position: absolute; top: 0; left: 0; padding: 0.55rem var(--control-pad-x); margin: 0;
+        color: var(--color-fg-subtle); pointer-events: none; transform-origin: 0 0;
+        transition: transform var(--duration-fast) var(--ease-standard), color var(--duration-fast);
+    }
+    .form-floating > .form-control:focus ~ label,
+    .form-floating > .form-control:not(:placeholder-shown) ~ label {
+        transform: translateY(-0.35rem) scale(0.8); color: var(--color-fg-muted);
+    }
+
+    /* ---- Validation (Bootstrap is-* + ASP.NET input-validation-error) - */
+    .form-control.is-valid, .form-select.is-valid { border-color: var(--color-success); }
+    .form-control.is-invalid, .form-select.is-invalid,
+    .input-validation-error { border-color: var(--color-danger); }
+    .form-control.is-invalid:focus, .input-validation-error:focus { box-shadow: 0 0 0 var(--focus-width) color-mix(in srgb, var(--color-danger) 45%, transparent); }
+    .valid-feedback { color: var(--color-success-light); font-size: 0.8rem; margin-top: 0.3rem; }
+    .invalid-feedback,
+    .field-validation-error, .validation-summary-errors { color: var(--color-danger-light); font-size: 0.8rem; margin-top: 0.3rem; }
+    .validation-summary-valid { display: none; }
 }

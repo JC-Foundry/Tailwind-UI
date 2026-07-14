@@ -1,0 +1,54 @@
+/* =====================================================================
+   CORE · TONES  (the ONLY per-colour code)
+   ---------------------------------------------------------------------
+   Each .tone-{type}[-light|-dark] sets --t / --t-l / --t-d / --t-fg; every
+   colour-agnostic treatment (treatments.css, gradients.css, hero.css) then
+   consumes them. This is what makes "any colour works with everything":
+   a hero is `.hero .tone-success`, a solid button `.btn-solid .tone-danger`,
+   a gradient box `.gradient .tone-primary`.
+
+   Known types use their hand-tuned -light/-dark. A -light / -dark tone
+   derives its own shades with color-mix so every treatment still has a full
+   base/light/dark range to work with.
+
+   ADD A CUSTOM COLOUR → add its --color-x* to @theme (app side) and one
+   .tone-x rule here (or in the app). That single rule unlocks EVERY
+   treatment for that colour — no component edits.
+   ===================================================================== */
+@layer components {
+    .tone-primary       { --t: var(--color-primary);       --t-l: var(--color-primary-light);  --t-d: var(--color-primary-dark);  --t-fg: var(--color-primary-fg); }
+    .tone-primary-light { --t: var(--color-primary-light); --t-l: color-mix(in srgb, var(--color-primary-light) 68%, white); --t-d: var(--color-primary);      --t-fg: var(--color-primary-fg); }
+    .tone-primary-dark  { --t: var(--color-primary-dark);  --t-l: var(--color-primary);        --t-d: color-mix(in srgb, var(--color-primary-dark) 65%, black); --t-fg: var(--color-primary-fg); }
+
+    .tone-secondary       { --t: var(--color-secondary);       --t-l: var(--color-secondary-light);  --t-d: var(--color-secondary-dark);  --t-fg: var(--color-secondary-fg); }
+    .tone-secondary-light { --t: var(--color-secondary-light); --t-l: color-mix(in srgb, var(--color-secondary-light) 68%, white); --t-d: var(--color-secondary);      --t-fg: var(--color-secondary-fg); }
+    .tone-secondary-dark  { --t: var(--color-secondary-dark);  --t-l: var(--color-secondary);        --t-d: color-mix(in srgb, var(--color-secondary-dark) 65%, black); --t-fg: var(--color-secondary-fg); }
+
+    .tone-tertiary       { --t: var(--color-tertiary);       --t-l: var(--color-tertiary-light);  --t-d: var(--color-tertiary-dark);  --t-fg: var(--color-tertiary-fg); }
+    .tone-tertiary-light { --t: var(--color-tertiary-light); --t-l: color-mix(in srgb, var(--color-tertiary-light) 68%, white); --t-d: var(--color-tertiary);      --t-fg: var(--color-tertiary-fg); }
+    .tone-tertiary-dark  { --t: var(--color-tertiary-dark);  --t-l: var(--color-tertiary);        --t-d: color-mix(in srgb, var(--color-tertiary-dark) 65%, black); --t-fg: var(--color-tertiary-fg); }
+
+    .tone-info       { --t: var(--color-info);       --t-l: var(--color-info-light);  --t-d: var(--color-info-dark);  --t-fg: var(--color-info-fg); }
+    .tone-info-light { --t: var(--color-info-light); --t-l: color-mix(in srgb, var(--color-info-light) 68%, white); --t-d: var(--color-info);      --t-fg: var(--color-info-fg); }
+    .tone-info-dark  { --t: var(--color-info-dark);  --t-l: var(--color-info);        --t-d: color-mix(in srgb, var(--color-info-dark) 65%, black); --t-fg: var(--color-info-fg); }
+
+    .tone-success       { --t: var(--color-success);       --t-l: var(--color-success-light);  --t-d: var(--color-success-dark);  --t-fg: var(--color-success-fg); }
+    .tone-success-light { --t: var(--color-success-light); --t-l: color-mix(in srgb, var(--color-success-light) 68%, white); --t-d: var(--color-success);      --t-fg: var(--color-success-fg); }
+    .tone-success-dark  { --t: var(--color-success-dark);  --t-l: var(--color-success);        --t-d: color-mix(in srgb, var(--color-success-dark) 65%, black); --t-fg: var(--color-success-fg); }
+
+    .tone-warning       { --t: var(--color-warning);       --t-l: var(--color-warning-light);  --t-d: var(--color-warning-dark);  --t-fg: var(--color-warning-fg); }
+    .tone-warning-light { --t: var(--color-warning-light); --t-l: color-mix(in srgb, var(--color-warning-light) 68%, white); --t-d: var(--color-warning);      --t-fg: var(--color-warning-fg); }
+    .tone-warning-dark  { --t: var(--color-warning-dark);  --t-l: var(--color-warning);        --t-d: color-mix(in srgb, var(--color-warning-dark) 65%, black); --t-fg: var(--color-warning-fg); }
+
+    .tone-danger       { --t: var(--color-danger);       --t-l: var(--color-danger-light);  --t-d: var(--color-danger-dark);  --t-fg: var(--color-danger-fg); }
+    .tone-danger-light { --t: var(--color-danger-light); --t-l: color-mix(in srgb, var(--color-danger-light) 68%, white); --t-d: var(--color-danger);      --t-fg: var(--color-danger-fg); }
+    .tone-danger-dark  { --t: var(--color-danger-dark);  --t-l: var(--color-danger);        --t-d: color-mix(in srgb, var(--color-danger-dark) 65%, black); --t-fg: var(--color-danger-fg); }
+
+    .tone-light       { --t: var(--color-light);       --t-l: var(--color-light-light);  --t-d: var(--color-light-dark);  --t-fg: var(--color-light-fg); }
+    .tone-light-light { --t: var(--color-light-light); --t-l: color-mix(in srgb, var(--color-light-light) 68%, white); --t-d: var(--color-light);      --t-fg: var(--color-light-fg); }
+    .tone-light-dark  { --t: var(--color-light-dark);  --t-l: var(--color-light);        --t-d: color-mix(in srgb, var(--color-light-dark) 65%, black); --t-fg: var(--color-light-fg); }
+
+    /* .tone-accent — explicitly re-pin the palette to the app accent (rarely
+       needed, since accent is already the no-tone default). */
+    .tone-accent { --t: var(--accent); --t-l: var(--accent-light); --t-d: var(--accent-dark); --t-fg: var(--accent-fg); }
+}

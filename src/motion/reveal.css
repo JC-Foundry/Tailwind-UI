@@ -1,0 +1,65 @@
+/* =====================================================================
+   MOTION · REVEAL — animate elements in as they cross the viewport
+   ---------------------------------------------------------------------
+   SCRUBBED and reversible: the effect is tied to scroll position, so
+   elements animate in on the way down and back out on the way up.
+
+   Two matched paths give the same feel in every browser:
+     • Native  — CSS scroll-driven timelines (Chrome, Edge, Safari 26+).
+                 Pure CSS, no JS.
+     • Fallback — motion/reveal.js scrubs opacity/transform on scroll for
+                 browsers without scroll-timeline (Firefox today, older
+                 Safari). Activated by `.js-reveal` on <html>.
+
+   Progressive enhancement: with neither (JS off / reduced-motion), the
+   content is simply visible.
+
+       <article class="card reveal reveal-rise">…</article>
+   `.reveal` alone = rise; add a modifier to change the effect. Stagger
+   children via an inline --i (0, 1, 2, …).
+   ===================================================================== */
+
+/* Keyframes (consumed by the native path; the JS path writes inline styles). */
+@keyframes reveal-fade  { from { opacity: 0; } }
+@keyframes reveal-rise  { from { opacity: 0; transform: translateY(var(--reveal-distance)); } }
+@keyframes reveal-scale { from { opacity: 0; transform: scale(var(--reveal-scale-from)); } }
+@keyframes reveal-left  { from { opacity: 0; transform: translateX(calc(-1 * var(--reveal-distance))); } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(var(--reveal-distance)); } }
+
+@layer utilities {
+    .reveal {
+        --reveal-distance: 1.5rem;            /* travel for rise / slide      */
+        --reveal-scale-from: 0.92;            /* start scale for reveal-scale */
+        --reveal-range: entry 5% cover 40%;   /* where in the crossing it plays */
+    }
+
+    /* -- Native scrubbed path ------------------------------------------ */
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            .reveal {
+                animation: reveal-rise linear both;
+                animation-timeline: view();
+                animation-range: var(--reveal-range);
+            }
+            .reveal-fade  { animation-name: reveal-fade; }
+            .reveal-rise  { animation-name: reveal-rise; }
+            .reveal-scale { animation-name: reveal-scale; }
+            .reveal-left  { animation-name: reveal-left; }
+            .reveal-right { animation-name: reveal-right; }
+
+            /* Stagger: children cascade by their inline --i (0, 1, 2, …). */
+            .reveal-stagger > .reveal {
+                --reveal-range: entry calc(5% + (var(--i, 0) * 6%)) cover 45%;
+            }
+        }
+    }
+
+    /* -- JS scrub fallback (reveal.js) --------------------------------- */
+    /* .js-reveal is added ONLY when the native feature is missing, so this
+       never fights the native path. Initial hidden state prevents a flash;
+       reveal.js then writes inline opacity/transform on every scroll. */
+    .js-reveal .reveal { opacity: 0; will-change: opacity, transform; }
+    @media (prefers-reduced-motion: reduce) {
+        .js-reveal .reveal { opacity: 1; transform: none; }
+    }
+}

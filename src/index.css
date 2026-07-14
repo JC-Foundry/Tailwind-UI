@@ -1,0 +1,48 @@
+/* =====================================================================
+   JC Tailwind UI — bundle entry (core + motion)
+   ---------------------------------------------------------------------
+   Import this one file to get Tailwind + the whole core design system and
+   the scroll-motion engines:
+
+       @import "jc-tailwind-ui";              (package export)
+       @import ".../src/index.css";           (vendor / copy-in path)
+
+   Then, in the app, declare your brand colours in an @theme block AFTER the
+   import (see templates/app.css). The OPTIONAL interactive layer (modals,
+   toasts, switches, …) is imported separately:
+
+       @import "jc-tailwind-ui/interactive";                 (CSS)
+       import { initUI } from "jc-tailwind-ui/interactive/ui.js";  (JS)
+   ===================================================================== */
+
+@import "tailwindcss";
+
+/* -- Core --------------------------------------------------------------- */
+@import "./core/tokens.css";        /* fonts, surfaces, colours, radii, motion, scales */
+@import "./core/accent.css";        /* --accent fallback + default tone        */
+@import "./core/tones.css";         /* .tone-{type} → --t/--t-l/--t-d/--t-fg    */
+@import "./core/base.css";          /* opinionated dark-theme tag scaffolding   */
+@import "./core/treatments.css";    /* buttons, badges, chips, cards, alerts…   */
+@import "./core/shorthands.css";    /* Bootstrap per-type: btn-primary, alert-danger… */
+@import "./core/gradients.css";     /* .gradient + curated mixes                */
+@import "./core/hero.css";          /* .hero / .btn-hero / .card-hero / …       */
+@import "./core/layout.css";        /* containers, primitives, app-shell, footer */
+@import "./core/utilities.css";     /* text-gradient, glass, elevation, scrim   */
+
+/* -- Components --------------------------------------------------------- */
+@import "./components/nav.css";         /* navbar, nav, nav-tabs/pills, breadcrumb, button-group */
+@import "./components/dropdown.css";    /* dropdown / dropdown-menu / dropdown-item */
+@import "./components/list-group.css";  /* list-group / list-group-item(+types)  */
+@import "./components/tables.css";      /* table + striped/hover/compact/bordered */
+@import "./components/forms.css";       /* form-control, form-check, form-select, input-group… */
+@import "./components/feedback.css";    /* progress, spinner, placeholder/skeleton */
+@import "./components/data.css";        /* avatar, timeline, stat, kbd, empty-state, dl */
+@import "./components/disclosure.css";  /* accordion                              */
+@import "./components/overlay.css";     /* tooltip, popover, offcanvas, banner    */
+
+/* -- Marketing sections ------------------------------------------------- */
+@import "./sections/sections.css";      /* hero-section, feature, cta, pricing, testimonial… */
+
+/* -- Motion ------------------------------------------------------------- */
+@import "./motion/reveal.css";      /* animate in on viewport entry             */
+@import "./motion/scrollytell.css"; /* pinned scroll storytelling               */

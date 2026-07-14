@@ -1,0 +1,80 @@
+/* =====================================================================
+   COMPONENT · NAVIGATION  (Bootstrap vocabulary)
+   navbar · nav · nav-link · nav-tabs · nav-pills · tab-content · breadcrumb
+   button-group · btn-group
+   ===================================================================== */
+@layer components {
+    /* ---- Navbar ------------------------------------------------------ */
+    .navbar {
+        display: flex; align-items: center; gap: 1rem;
+        min-height: 3.5rem; padding: 0.5rem 1rem;
+        background: var(--color-surface);
+        border-bottom: 1px solid var(--color-edge);
+    }
+    .navbar-brand {
+        display: inline-flex; align-items: center; gap: 0.5rem;
+        font-weight: var(--weight-semibold); font-size: 1.05rem; color: var(--color-fg);
+        text-decoration: none;
+    }
+    .navbar-nav { display: flex; align-items: center; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+
+    /* ---- Nav (base) -------------------------------------------------- */
+    .nav { display: flex; flex-wrap: wrap; gap: 0.25rem; list-style: none; margin: 0; padding: 0; }
+    .nav-item { display: inline-flex; }
+    .nav-link {
+        display: inline-flex; align-items: center; gap: 0.4rem;
+        padding: 0.5rem 0.85rem; border-radius: var(--radius-md);
+        color: var(--color-fg-muted); text-decoration: none; cursor: pointer;
+        transition: background-color var(--duration-fast) var(--ease-standard), color var(--duration-fast) var(--ease-standard);
+    }
+    .nav-link:hover { color: var(--color-fg); background: var(--color-surface-2); }
+    .nav-link.active { color: var(--color-fg); }
+    .nav-link.disabled { opacity: 0.5; pointer-events: none; }
+
+    /* ---- Tabs -------------------------------------------------------- */
+    .nav-tabs { border-bottom: 1px solid var(--color-edge); gap: 0; }
+    .nav-tabs .nav-link {
+        border-radius: 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    }
+    .nav-tabs .nav-link:hover { background: transparent; color: var(--color-fg); }
+    .nav-tabs .nav-link.active {
+        color: var(--accent-light);
+        border-bottom-color: var(--accent);
+        background: transparent;
+    }
+
+    /* ---- Pills ------------------------------------------------------- */
+    .nav-pills .nav-link.active {
+        color: var(--accent-light);
+        background: color-mix(in srgb, var(--accent) var(--mix-subtle), transparent);
+    }
+
+    /* ---- Tab panes --------------------------------------------------- */
+    .tab-content > .tab-pane { display: none; }
+    .tab-content > .tab-pane.active { display: block; }
+    .tab-content { padding-top: 1rem; }
+
+    /* ---- Breadcrumb -------------------------------------------------- */
+    .breadcrumb {
+        display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem;
+        list-style: none; margin: 0; padding: 0; font-size: 0.875rem;
+    }
+    .breadcrumb-item { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-fg-muted); }
+    .breadcrumb-item a { color: var(--color-fg-muted); text-decoration: none; }
+    .breadcrumb-item a:hover { color: var(--accent-light); }
+    .breadcrumb-item + .breadcrumb-item::before { content: "/"; color: var(--color-fg-subtle); }
+    .breadcrumb-item.active { color: var(--color-fg); }
+
+    /* ---- Button group ------------------------------------------------ */
+    .btn-group { display: inline-flex; }
+    .btn-group > .btn { border-radius: 0; }
+    .btn-group > .btn:not(:first-child) { margin-left: -1px; }
+    .btn-group > .btn:first-child { border-top-left-radius: var(--radius-md); border-bottom-left-radius: var(--radius-md); }
+    .btn-group > .btn:last-child { border-top-right-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
+    .btn-group > .btn:hover, .btn-group > .btn:focus-visible { z-index: 1; }
+
+    /* Segmented control — a pill-style single-select group. */
+    .segmented { display: inline-flex; gap: 0.15rem; padding: 0.2rem; border-radius: var(--radius-lg); background: var(--color-surface-2); }
+    .segmented > .btn { border: 0; background: transparent; color: var(--color-fg-muted); }
+    .segmented > .btn.active { background: var(--color-surface); color: var(--color-fg); box-shadow: var(--elevation-1); }
+}

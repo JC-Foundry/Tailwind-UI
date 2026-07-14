@@ -1,0 +1,53 @@
+/* =====================================================================
+   CORE · HERO
+   ---------------------------------------------------------------------
+   The "hero" look = tone gradient + coloured glow + hover pop. `.hero`
+   applies it to ANY element (a div, a section, a button). The component
+   flavours add structure on top of the shared look:
+     .btn-hero   — hero-styled button (inline, padded, bold)
+     .card-hero  — hero-styled card   (large padding + radius)
+     .badge-hero — hero-styled badge  (pill)
+   Colour comes from the active tone, so `.hero .tone-success` is a green
+   hero, `.btn-hero .tone-danger` a red hero button, and with no tone it is
+   the app accent.
+   ===================================================================== */
+@layer components {
+    .btn-hero {
+        display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+        padding: 0.7rem 1.4rem; font-size: 0.95rem; font-weight: 700; border-radius: var(--radius-lg);
+        border: 0; cursor: pointer;
+    }
+    .card-hero {
+        padding: 1.5rem; border-radius: var(--radius-2xl);
+    }
+    .badge-hero {
+        display: inline-flex; align-items: center; gap: 0.3rem;
+        padding: 0.2rem 0.7rem; font-size: 0.75rem; font-weight: 700; border-radius: 999px;
+    }
+}
+
+@layer utilities {
+    /* Shared hero treatment applied to every hero flavour. */
+    .hero, .btn-hero, .card-hero, .badge-hero {
+        background-image: linear-gradient(135deg, var(--t-l), var(--t), var(--t-d));
+        color: var(--t-fg);
+        box-shadow:
+            0 8px 22px -8px color-mix(in srgb, var(--t) 40%, transparent),
+            0 2px 6px rgba(0, 0, 0, 0.4);
+        transition: transform 0.25s var(--ease-pop), box-shadow 0.25s ease, filter 0.25s ease;
+        will-change: transform;
+    }
+    .hero:hover, .btn-hero:hover, .card-hero:hover, .badge-hero:hover {
+        transform: translateY(-3px) scale(1.02);
+        box-shadow:
+            0 14px 30px -12px color-mix(in srgb, var(--t) 48%, transparent),
+            0 4px 10px rgba(0, 0, 0, 0.45);
+        filter: brightness(1.04) saturate(1.03);
+    }
+
+    /* Respect reduced-motion: keep the look, drop the movement. */
+    @media (prefers-reduced-motion: reduce) {
+        .hero, .btn-hero, .card-hero, .badge-hero { transition: none; }
+        .hero:hover, .btn-hero:hover, .card-hero:hover, .badge-hero:hover { transform: none; }
+    }
+}
