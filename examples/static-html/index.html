@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>JC Tailwind UI — demo</title>
+  <link rel="stylesheet" href="./output.css" />
+</head>
+<body class="page-shell">
+  <nav class="navbar">
+    <span class="navbar-brand">JC Tailwind UI</span>
+    <div class="ml-auto flex gap-2">
+      <button class="btn btn-ghost btn-sm" onclick="document.documentElement.classList.toggle('dark')">
+        Toggle theme
+      </button>
+    </div>
+  </nav>
+
+  <main class="section flex flex-col gap-8">
+    <section class="flex flex-wrap items-center gap-3">
+      <button class="btn btn-primary">Save</button>
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-danger">Delete</button>
+      <button class="btn btn-outline-primary">Edit</button>
+      <button class="btn btn-ghost">Close</button>
+    </section>
+
+    <section class="flex flex-wrap gap-2">
+      <span class="badge badge-success">Live</span>
+      <span class="badge badge-warning">Pending</span>
+      <span class="badge badge-danger">Failed</span>
+      <span class="badge badge-info">Info</span>
+    </section>
+
+    <section class="flex flex-col gap-3 max-w-md">
+      <div class="alert alert-success">Saved successfully.</div>
+      <div class="alert alert-danger">Something went wrong.</div>
+    </section>
+
+    <section class="admin-grid">
+      <div class="stat-card">
+        <span class="stat-label">Revenue</span>
+        <span class="stat-value">£24,580</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Active users</span>
+        <span class="stat-value">1,204</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Errors</span>
+        <span class="stat-value">3</span>
+      </div>
+    </section>
+
+    <section class="card max-w-md">
+      <div class="card-header">Sign in</div>
+      <div class="card-body flex flex-col gap-4">
+        <div class="form-group">
+          <label class="form-label" for="email">Email</label>
+          <input class="input" id="email" type="email" placeholder="you@example.com" />
+          <span class="form-help">We'll never share your email.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="pw">Password</label>
+          <input class="input input-validation-error" id="pw" type="password" />
+          <span class="field-validation-error">Password is required.</span>
+        </div>
+      </div>
+      <div class="card-footer flex justify-end gap-2">
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-primary">Sign in</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

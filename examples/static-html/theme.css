@@ -1,0 +1,8 @@
+/* Example app override: a warmer primary + one brand-new colour. */
+@theme {
+  --color-primary: #0d9488;
+  --color-primary-light: #2dd4bf;
+  --color-primary-dark: #0f766e;
+
+  --color-monappoly: #b91c1c;
+}

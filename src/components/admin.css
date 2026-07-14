@@ -1,0 +1,45 @@
+/* Admin shell primitives — plan §7.6 (prioritised over marketing components) */
+@layer components {
+  /* App-frame grid: sidebar + (topbar / content) */
+  .admin-shell {
+    @apply grid min-h-screen bg-surface text-content;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "sidebar topbar"
+      "sidebar content";
+  }
+  .admin-sidebar {
+    grid-area: sidebar;
+    @apply flex w-64 flex-col gap-1 border-r border-border bg-surface-raised p-3;
+  }
+  .admin-topbar {
+    grid-area: topbar;
+    @apply flex h-14 items-center justify-between gap-4 border-b border-border bg-surface-raised px-4;
+  }
+  .admin-content {
+    grid-area: content;
+    @apply overflow-auto p-4 sm:p-6;
+  }
+
+  .admin-card {
+    @apply rounded-card border border-border bg-surface-raised p-4 shadow-card;
+  }
+  .admin-grid {
+    @apply grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
+  .admin-action-bar {
+    @apply mb-4 flex flex-wrap items-center justify-between gap-3;
+  }
+
+  /* Stat cards */
+  .stat-card {
+    @apply flex flex-col gap-1 rounded-card border border-border bg-surface-raised p-4 shadow-card;
+  }
+  .stat-value {
+    @apply text-2xl font-semibold tracking-tight text-content;
+  }
+  .stat-label {
+    @apply text-xs font-medium uppercase tracking-wide text-content-muted;
+  }
+}

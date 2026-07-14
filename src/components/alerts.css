@@ -1,0 +1,10 @@
+/* Alerts — plan §7.4 */
+@layer components {
+  .alert {
+    @apply rounded-field border px-4 py-3 text-sm;
+  }
+  .alert-info    { @apply border-info/30 bg-info/10 text-info-dark dark:text-info-light; }
+  .alert-success { @apply border-success/30 bg-success/10 text-success-dark dark:text-success-light; }
+  .alert-warning { @apply border-warning/30 bg-warning/10 text-warning-dark dark:text-warning-light; }
+  .alert-danger  { @apply border-danger/30 bg-danger/10 text-danger-dark dark:text-danger-light; }
+}

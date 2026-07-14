@@ -1,0 +1,17 @@
+/* ==========================================================================
+   ASP.NET consumer entry (Styles/input.css)
+   --------------------------------------------------------------------------
+   Vendor the bundle (git submodule / subtree / copy) under, e.g.,
+   ./vendor/jc-tailwind-ui, then build:
+
+     tailwindcss -i ./Styles/input.css -o ./wwwroot/css/site.css --minify
+
+   Reference the output once in _Layout.cshtml:
+     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+   ========================================================================== */
+
+@import "../../src/styling.css";   /* -> "./vendor/jc-tailwind-ui/src/styling.css" in a real app */
+@import "./custom-overrides.css";
+
+/* Scan Razor markup for utility classes. */
+@source "../**/*.cshtml";

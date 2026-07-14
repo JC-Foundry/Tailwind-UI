@@ -1,0 +1,50 @@
+/* ==========================================================================
+   JC Tailwind UI — default brand colour tokens
+   --------------------------------------------------------------------------
+   Semantic brand colours + explicit -light / -dark variants.
+
+   Every --color-* here auto-generates the full utility set in Tailwind v4:
+       bg-primary  text-primary  border-primary  ring-primary
+       outline-primary  decoration-primary  fill-primary  stroke-primary  ...
+
+   NO automatic shade generation (per plan §5.2). Each variant is explicit.
+   A consuming app overrides any of these — or adds new colours — by
+   redeclaring the variable in its own @theme block (see templates/custom.css).
+   ========================================================================== */
+
+@theme {
+  /* -- Primary -------------------------------------------------------- */
+  --color-primary: #2563eb;
+  --color-primary-light: #60a5fa;
+  --color-primary-dark: #1d4ed8;
+
+  /* -- Secondary ------------------------------------------------------ */
+  --color-secondary: #64748b;
+  --color-secondary-light: #94a3b8;
+  --color-secondary-dark: #475569;
+
+  /* -- Accent --------------------------------------------------------- */
+  --color-accent: #7c3aed;
+  --color-accent-light: #a78bfa;
+  --color-accent-dark: #5b21b6;
+
+  /* -- Success -------------------------------------------------------- */
+  --color-success: #16a34a;
+  --color-success-light: #4ade80;
+  --color-success-dark: #15803d;
+
+  /* -- Warning -------------------------------------------------------- */
+  --color-warning: #d97706;
+  --color-warning-light: #fbbf24;
+  --color-warning-dark: #b45309;
+
+  /* -- Danger --------------------------------------------------------- */
+  --color-danger: #dc2626;
+  --color-danger-light: #f87171;
+  --color-danger-dark: #b91c1c;
+
+  /* -- Info ----------------------------------------------------------- */
+  --color-info: #0891b2;
+  --color-info-light: #38bdf8;
+  --color-info-dark: #0e7490;
+}

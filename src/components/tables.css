@@ -1,0 +1,20 @@
+/* Tables — basic styling (plan §14) */
+@layer components {
+  .table {
+    @apply w-full border-collapse text-left text-sm text-content;
+  }
+  .table th {
+    @apply border-b border-border px-4 py-3 font-semibold text-content-muted;
+  }
+  .table td {
+    @apply border-b border-border-muted px-4 py-3 align-middle;
+  }
+  .table tbody tr:hover {
+    @apply bg-surface-muted;
+  }
+
+  /* -- Variants ------------------------------------------------------- */
+  .table-striped tbody tr:nth-child(odd) { @apply bg-surface-muted/60; }
+  .table-compact th,
+  .table-compact td { @apply px-3 py-2; }
+}

@@ -1,0 +1,21 @@
+/* Cards — plan §7.2 */
+@layer components {
+  .card {
+    @apply rounded-card border border-border bg-surface-raised text-content shadow-card;
+  }
+  .card-header {
+    @apply border-b border-border px-5 py-4 font-semibold;
+  }
+  .card-body {
+    @apply px-5 py-4;
+  }
+  .card-footer {
+    @apply border-t border-border px-5 py-4;
+  }
+
+  /* -- Variants ------------------------------------------------------- */
+  .card-muted   { @apply bg-surface-muted shadow-none; }
+  .card-raised  { @apply shadow-raised; }
+  .card-primary { @apply border-primary/40; }
+  .card-danger  { @apply border-danger/40; }
+}

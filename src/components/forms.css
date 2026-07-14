@@ -1,0 +1,56 @@
+/* Forms — plan §7.5. Designed to play nicely with ASP.NET validation output. */
+@layer components {
+  .form-group {
+    @apply mb-4 flex flex-col gap-1.5;
+  }
+  .form-label {
+    @apply text-sm font-medium text-content;
+  }
+  .form-help {
+    @apply text-xs text-content-muted;
+  }
+  .form-error {
+    @apply text-xs font-medium text-danger;
+  }
+
+  /* -- Controls ------------------------------------------------------- */
+  .input,
+  .select,
+  .textarea {
+    @apply block w-full rounded-field border border-border bg-surface px-3 py-2
+           text-sm text-content shadow-sm transition-colors
+           placeholder:text-content-muted
+           focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40
+           disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .textarea { @apply min-h-24 resize-y; }
+  .select   { @apply pr-8; }
+
+  .checkbox,
+  .radio {
+    @apply h-4 w-4 border-border text-primary
+           focus:ring-2 focus:ring-primary/40 focus:ring-offset-0;
+  }
+  .checkbox { @apply rounded; }
+  .radio    { @apply rounded-full; }
+
+  /* -- ASP.NET validation hooks --------------------------------------
+     ASP.NET adds `input-validation-error` to invalid inputs and
+     `field-validation-error` / `validation-summary-errors` to messages. */
+  .input-validation-error,
+  .input.input-validation-error,
+  .select.input-validation-error,
+  .textarea.input-validation-error {
+    @apply border-danger focus:border-danger focus:ring-danger/40;
+  }
+  .field-validation-error {
+    @apply text-xs font-medium text-danger;
+  }
+  .validation-summary,
+  .validation-summary-errors {
+    @apply rounded-field border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger;
+  }
+  .validation-summary-errors ul { @apply list-disc pl-5; }
+  /* ASP.NET hides an empty/valid summary with this class */
+  .validation-summary-valid { @apply hidden; }
+}

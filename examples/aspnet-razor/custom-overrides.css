@@ -1,0 +1,5 @@
+/* App-specific theme — the only styling file this app authors (plan §21.3). */
+@theme {
+  --color-primary: #1d4ed8;
+  --color-primary-dark: #1e3a8a;
+}

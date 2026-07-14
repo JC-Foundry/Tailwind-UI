@@ -1,0 +1,66 @@
+/* ==========================================================================
+   JC Tailwind UI — theme-aware surface / content tokens (light & dark mode)
+   --------------------------------------------------------------------------
+   These semantic tokens FLIP with the site theme mode (light vs dark). This is
+   distinct from colour variants like primary-light / primary-dark, which are
+   fixed shades usable in either mode (plan §6).
+
+   How the plumbing works (Tailwind v4):
+   - @theme inline maps each semantic colour to a runtime CSS variable, so the
+     generated utility inlines `var(--surface)` rather than a build-time value.
+   - :root sets the light-mode values; .dark overrides them at runtime.
+   - Because utilities reference the runtime var, toggling `.dark` on <html>
+     re-themes bg-surface / text-content / border-border everywhere at once.
+
+   The consuming app never has to understand this — it only sets values.
+   ========================================================================== */
+
+/* Class-based dark mode: `dark:` variants activate under a .dark ancestor.
+   (Default Tailwind v4 dark mode is prefers-color-scheme; this opts into a
+   toggleable class so apps can offer a manual switch.) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  /* Surfaces */
+  --color-surface: var(--jc-surface);
+  --color-surface-muted: var(--jc-surface-muted);
+  --color-surface-raised: var(--jc-surface-raised);
+
+  /* Content (text/icons on surfaces) */
+  --color-content: var(--jc-content);
+  --color-content-muted: var(--jc-content-muted);
+
+  /* Borders */
+  --color-border: var(--jc-border);
+  --color-border-muted: var(--jc-border-muted);
+}
+
+/* Light mode (default) */
+:root {
+  --jc-surface: #ffffff;
+  --jc-surface-muted: #f8fafc;
+  --jc-surface-raised: #ffffff;
+
+  --jc-content: #0f172a;
+  --jc-content-muted: #64748b;
+
+  --jc-border: #e2e8f0;
+  --jc-border-muted: #f1f5f9;
+
+  color-scheme: light;
+}
+
+/* Dark mode */
+.dark {
+  --jc-surface: #0b1120;
+  --jc-surface-muted: #111827;
+  --jc-surface-raised: #1e293b;
+
+  --jc-content: #f1f5f9;
+  --jc-content-muted: #94a3b8;
+
+  --jc-border: #1e293b;
+  --jc-border-muted: #0f172a;
+
+  color-scheme: dark;
+}

@@ -1,0 +1,11 @@
+# Dependencies
+node_modules/
+
+# Build output (generated CSS from examples)
+examples/**/output.css
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+temp.txt
+*.log

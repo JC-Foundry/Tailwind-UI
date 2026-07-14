@@ -1,0 +1,6 @@
+/* Example consuming-app entry: bundle + local theme overrides. */
+@import "../../src/styling.css";
+@import "./theme.css";
+
+/* Tell Tailwind which markup to scan for utility classes. */
+@source "./index.html";

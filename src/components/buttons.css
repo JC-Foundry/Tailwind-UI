@@ -1,0 +1,44 @@
+/* Buttons — plan §7.1 */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap
+           rounded-btn px-4 py-2 text-sm font-medium leading-5
+           transition-colors duration-150
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+           focus-visible:ring-offset-surface
+           disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  /* -- Sizes ---------------------------------------------------------- */
+  .btn-xs { @apply px-2 py-1 text-xs gap-1; }
+  .btn-sm { @apply px-3 py-1.5 text-xs; }
+  .btn-md { @apply px-4 py-2 text-sm; }
+  .btn-lg { @apply px-5 py-2.5 text-base; }
+  .btn-xl { @apply px-6 py-3 text-lg; }
+
+  /* -- Solid variants ------------------------------------------------- */
+  .btn-primary   { @apply bg-primary text-white hover:bg-primary-dark focus-visible:ring-primary; }
+  .btn-secondary { @apply bg-secondary text-white hover:bg-secondary-dark focus-visible:ring-secondary; }
+  .btn-accent    { @apply bg-accent text-white hover:bg-accent-dark focus-visible:ring-accent; }
+  .btn-success   { @apply bg-success text-white hover:bg-success-dark focus-visible:ring-success; }
+  .btn-warning   { @apply bg-warning text-white hover:bg-warning-dark focus-visible:ring-warning; }
+  .btn-danger    { @apply bg-danger text-white hover:bg-danger-dark focus-visible:ring-danger; }
+  .btn-info      { @apply bg-info text-white hover:bg-info-dark focus-visible:ring-info; }
+
+  /* -- Ghost / subtle ------------------------------------------------- */
+  .btn-ghost {
+    @apply bg-transparent text-content hover:bg-surface-muted focus-visible:ring-border;
+  }
+
+  /* -- Outline variants ----------------------------------------------- */
+  .btn-outline-primary   { @apply border border-primary text-primary bg-transparent hover:bg-primary hover:text-white focus-visible:ring-primary; }
+  .btn-outline-secondary { @apply border border-secondary text-secondary bg-transparent hover:bg-secondary hover:text-white focus-visible:ring-secondary; }
+  .btn-outline-danger    { @apply border border-danger text-danger bg-transparent hover:bg-danger hover:text-white focus-visible:ring-danger; }
+
+  /* -- Loading state -------------------------------------------------- */
+  .btn-loading { @apply pointer-events-none opacity-70; }
+  .btn-loading::before {
+    content: "";
+    @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent;
+  }
+}

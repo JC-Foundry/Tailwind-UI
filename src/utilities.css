@@ -1,0 +1,26 @@
+/* ==========================================================================
+   JC Tailwind UI — custom utilities
+   --------------------------------------------------------------------------
+   Small, project-agnostic helpers that are awkward to express with stock
+   Tailwind utilities. Keep this thin — let Tailwind own layout, spacing and
+   one-off styling (plan §17.1). Add here only what proves reusable.
+
+   Use Tailwind v4's @utility API so these compose with variants
+   (hover:, dark:, md:, etc.) like first-class utilities.
+   ========================================================================== */
+
+/* Themed focus ring matching the JC token widths. */
+@utility focus-ring {
+  outline: none;
+  box-shadow:
+    0 0 0 var(--jc-focus-ring-offset) var(--color-surface),
+    0 0 0 calc(var(--jc-focus-ring-offset) + var(--jc-focus-ring-width)) var(--color-primary);
+}
+
+/* Truncate to N lines (line-clamp is built-in, this is a semantic alias). */
+@utility surface-card {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
