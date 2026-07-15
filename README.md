@@ -9,6 +9,8 @@ is one variable.
 Drop it into an app, declare your brand colours, compile one CSS file. Dark
 theme today; light mode is a planned v2 (surfaces are already tokenised for it).
 
+📦 **[QUICKSTART.md](QUICKSTART.md)** — install into an app · 📖 **[API.md](API.md)** — every class, token & JS hook
+
 ---
 
 ## The core idea: tone + treatment
