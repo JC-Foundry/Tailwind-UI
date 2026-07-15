@@ -1,33 +1,35 @@
-@* Example Razor markup using JC Tailwind UI tone + treatment classes.
-   Works with ASP.NET tag/validation helpers out of the box. *@
-@model LoginViewModel
+@* Example Razor markup using JC Tailwind UI classes.
+   No @model and no model-bound tag helpers, so it compiles as-is in any
+   project — just paste it in. To wire it to your own view model, swap the
+   plain inputs for asp-for helpers, e.g.:
+       <label asp-for="Email" class="form-label"></label>
+       <input asp-for="Email" class="form-control" />
+       <span asp-validation-for="Email" class="field-validation-error"></span>
+*@
 
 <div class="container-page section">
   <div class="card" style="max-width:28rem; margin-inline:auto;">
     <h2>Sign in</h2>
 
-    <form asp-action="Login" method="post" style="display:flex; flex-direction:column; gap:1rem; margin-top:1rem;">
-      <div asp-validation-summary="ModelOnly" class="alert alert-accent tone-danger"></div>
-
-      <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" placeholder="you@example.com" />
-        <span asp-validation-for="Email" class="field-validation-error"></span>
+    <form method="post" class="stack" style="--gap:1rem; margin-top:1rem;">
+      <div class="form-group">
+        <label class="form-label" for="email">Email</label>
+        <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" />
       </div>
 
-      <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password" class="field-validation-error"></span>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input class="form-control" id="password" name="password" type="password" />
       </div>
 
-      <label style="display:flex; align-items:center; gap:.5rem; margin:0;">
-        <span class="switch" data-switch-name="RememberMe"></span> Remember me
-      </label>
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="remember" name="remember" />
+        <label class="form-check-label" for="remember">Remember me</label>
+      </div>
 
-      <div style="display:flex; justify-content:flex-end; gap:.5rem;">
-        <button type="button" class="btn btn-soft">Cancel</button>
-        <button type="submit" class="btn btn-solid">Sign in</button>
+      <div class="cluster" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-soft-secondary">Cancel</button>
+        <button type="submit" class="btn btn-primary">Sign in</button>
       </div>
     </form>
   </div>

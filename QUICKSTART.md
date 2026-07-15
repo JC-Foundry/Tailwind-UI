@@ -22,14 +22,15 @@ theme.css   ┘
 
 ## 1 · Add the bundle as a git submodule
 
-From the **root of your app repo**:
+From your **project folder** (the one containing `Styles/` and `wwwroot/`):
 
 ```bash
-git submodule add https://github.com/JC-Foundry/Tailwind-UI.git vendor/jc-tailwind-ui
+git submodule add https://github.com/JC-Foundry/Tailwind-UI.git Styles/vendor/jc-tailwind-ui
 git commit -m "Add jc-tailwind-ui bundle (submodule)"
 ```
 
-This pins the bundle at a specific commit under `vendor/jc-tailwind-ui`.
+This pins the bundle at a specific commit under `Styles/vendor/jc-tailwind-ui`
+(next to your entry CSS, so the import is a short `./vendor/…`).
 
 > Cloning your app later? Use `git clone --recurse-submodules …`, or run
 > `git submodule update --init --recursive` in an existing clone.
@@ -60,14 +61,14 @@ Add two scripts to `package.json`:
 
 ## 3 · Author one entry file — `Styles/site.css`
 
-Copy `vendor/jc-tailwind-ui/src/templates/app.css` to `Styles/site.css` and set
-your brand colours. Minimal version:
+Copy `Styles/vendor/jc-tailwind-ui/src/templates/app.css` to `Styles/site.css`
+and set your brand colours. Minimal version:
 
 ```css
 /* 1 · the bundle (Tailwind + core + components + motion) */
-@import "../vendor/jc-tailwind-ui/src/index.css";
+@import "./vendor/jc-tailwind-ui/src/index.css";
 /* optional interactive component CSS (modals, dropdowns, toasts, …) */
-@import "../vendor/jc-tailwind-ui/src/interactive/interactive.css";
+@import "./vendor/jc-tailwind-ui/src/interactive/interactive.css";
 
 /* 2 · scan your markup so Tailwind generates the utilities you use */
 @source "../Pages/**/*.cshtml";
@@ -87,8 +88,9 @@ your brand colours. Minimal version:
 /* .tone-brand { --t: var(--color-brand); --t-l: …; --t-d: …; --t-fg: …; } */
 ```
 
-Adjust the `@import`/`@source` paths to wherever `Styles/` sits relative to the
-submodule and your views.
+The `@import` paths above assume the submodule sits at `Styles/vendor/…` (Step 1)
+and `site.css` is in `Styles/`. The `@source` globs point at your views one level
+up. Adjust if your layout differs.
 
 ---
 
@@ -135,7 +137,7 @@ Copy the ones you want into `wwwroot/js/` (or add a copy step), then:
 </script>
 ```
 
-Source modules live at `vendor/jc-tailwind-ui/src/interactive/ui.js`,
+Source modules live at `Styles/vendor/jc-tailwind-ui/src/interactive/ui.js`,
 `…/src/motion/reveal.js`, `…/src/motion/scrollytell.js` (also pre-copied under
 the bundle's `dist/`). CSS-only components need none of this.
 
@@ -162,8 +164,8 @@ use `tone-*`.
 ## Updating the bundle later
 
 ```bash
-git -C vendor/jc-tailwind-ui pull origin main   # or: git submodule update --remote
-git add vendor/jc-tailwind-ui
+git submodule update --remote Styles/vendor/jc-tailwind-ui
+git add Styles/vendor/jc-tailwind-ui
 git commit -m "Update jc-tailwind-ui"
 npm run css:build
 ```
