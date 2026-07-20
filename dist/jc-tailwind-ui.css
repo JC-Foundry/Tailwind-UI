@@ -15,6 +15,8 @@
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-xl: 36rem;
+    --text-sm: 0.875rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
     --radius-sm: 0.375rem;
     --radius-md: 0.5rem;
     --radius-lg: 0.75rem;
@@ -248,6 +250,9 @@
       max-width: 96rem;
     }
   }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+  }
   .block {
     display: block;
   }
@@ -327,6 +332,10 @@
   .bg-white {
     background-color: var(--color-white);
   }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
   .tab-1 {
     tab-size: 1;
   }
@@ -351,11 +360,22 @@
   .text-white {
     color: var(--color-white);
   }
+  .underline {
+    text-decoration-line: underline;
+  }
   .decoration-primary {
     text-decoration-color: var(--color-primary);
   }
   .accent-light {
     accent-color: var(--color-light);
+  }
+  .shadow {
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .ring {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-primary {
     --tw-shadow-color: #2563eb;
@@ -657,6 +677,7 @@ body {
   }
   h1, h2, h3, h4, h5, h6 {
     color: inherit;
+    margin: 1.5rem 0 0.5rem;
     font-weight: 600;
     letter-spacing: -0.015em;
     line-height: 1.15;
@@ -684,6 +705,7 @@ body {
     color: var(--color-fg-muted);
   }
   p {
+    margin: 0 0 1rem;
     line-height: 1.7;
   }
   small {
@@ -692,6 +714,15 @@ body {
   }
   strong, b {
     font-weight: 600;
+  }
+  :is(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, table):first-child {
+    margin-top: 0;
+  }
+  :is(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, table):last-child {
+    margin-bottom: 0;
+  }
+  :is(.stack, .cluster, .center-grid, .grid-auto, .grid-fit, .hero-section, .section-heading, .feature, .testimonial, .empty-state) > :is(h1, h2, h3, h4, h5, h6, p, ul, ol) {
+    margin: 0;
   }
   a {
     color: var(--accent-light);
@@ -707,6 +738,7 @@ body {
     border-top: 1px solid var(--color-edge);
   }
   ul, ol {
+    margin: 0 0 1rem;
     padding-left: 1.5rem;
     line-height: 1.7;
   }
