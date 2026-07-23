@@ -21,7 +21,7 @@
     .section-heading { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 2.5rem; }
     .section-heading.center { align-items: center; text-align: center; }
     .section-heading__eyebrow { text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; font-weight: var(--weight-semibold); color: var(--accent-light); }
-    .section-heading__lead { color: var(--color-fg-muted); max-width: 52ch; }
+    .section-heading__lead { color: var(--color-fg-muted); max-width: 70ch; }
 
     /* ---- Feature grid ------------------------------------------------ */
     .feature-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
