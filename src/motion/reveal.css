@@ -30,7 +30,23 @@
     .reveal {
         --reveal-distance: 1.5rem;            /* travel for rise / slide      */
         --reveal-scale-from: 0.92;            /* start scale for reveal-scale */
-        --reveal-range: entry 5% cover 40%;   /* where in the crossing it plays */
+
+        /* Where in the crossing the effect plays. Because it is SCRUBBED rather
+           than triggered, whatever this ends at is where the element stops
+           looking half-finished — anything below that point on screen is still
+           mid-animation, faded and offset. Ending near the middle therefore
+           leaves the whole lower half of a long page looking broken rather than
+           animated, so it finishes shortly after the element appears instead.
+
+           The target is: begin when the element's top edge is 5% up from the
+           bottom of the viewport, finish when it reaches 30% up. Note those are
+           NOT these numbers — a cover range spans the viewport PLUS the element,
+           so the same two screen positions work out much smaller here. For a
+           section around three quarters of a viewport tall they land near 3%
+           and 17%, which is what is used below. Taller elements finish a little
+           lower on screen, shorter ones a little higher. Lower the end value to
+           finish nearer the bottom of the screen. */
+        --reveal-range: cover 3% cover 17%;
     }
 
     /* -- Native scrubbed path ------------------------------------------ */
@@ -47,9 +63,11 @@
             .reveal-left  { animation-name: reveal-left; }
             .reveal-right { animation-name: reveal-right; }
 
-            /* Stagger: children cascade by their inline --i (0, 1, 2, …). */
+            /* Stagger: children cascade by their inline --i (0, 1, 2, …). Each
+               child keeps the same short window, offset a little further into
+               the crossing than the one before it. */
             .reveal-stagger > .reveal {
-                --reveal-range: entry calc(5% + (var(--i, 0) * 6%)) cover 45%;
+                --reveal-range: cover calc(3% + (var(--i, 0) * 3%)) cover calc(17% + (var(--i, 0) * 3%));
             }
         }
     }

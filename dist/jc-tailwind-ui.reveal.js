@@ -33,12 +33,20 @@ function reducedMotion() {
     return typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-// Scroll progress of one element: 0 just as it enters the bottom, 1 once its
-// top reaches ~mid-viewport. Reverses when scrolling back up.
+// Scroll progress of one element, measured by where its top edge sits in the
+// viewport: 0 at 5% up from the bottom, 1 at 30% up. Reverses when scrolling
+// back up.
+//
+// Where this reaches 1 matters because the effect is scrubbed, not triggered:
+// past that point the element looks finished, below it the element is genuinely
+// mid-animation. Ending mid-viewport (the original behaviour) left the whole
+// lower half of a long page permanently faded and offset. These thresholds are
+// the reference for the effect; `--reveal-range` in reveal.css approximates the
+// same two positions in cover-range units for the native path.
 function progressFor(rect) {
     const vh = window.innerHeight || document.documentElement.clientHeight;
-    const start = vh * 0.95;   // ~5% into view
-    const end = vh * 0.45;     // revealed by mid-viewport
+    const start = vh * 0.95;   // top edge 5% up from the bottom of the viewport
+    const end = vh * 0.7;      // fully revealed 30% up from the bottom
     return Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
 }
 
