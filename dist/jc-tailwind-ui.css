@@ -2722,7 +2722,7 @@ body {
   }
   .section-heading__lead {
     color: var(--color-fg-muted);
-    max-width: 52ch;
+    max-width: 70ch;
   }
   .feature-grid {
     display: grid;
@@ -2963,7 +2963,7 @@ body {
   .reveal {
     --reveal-distance: 1.5rem;
     --reveal-scale-from: 0.92;
-    --reveal-range: entry 5% cover 40%;
+    --reveal-range: cover 3% cover 17%;
   }
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
@@ -2988,7 +2988,7 @@ body {
         animation-name: reveal-right;
       }
       .reveal-stagger > .reveal {
-        --reveal-range: entry calc(5% + (var(--i, 0) * 6%)) cover 45%;
+        --reveal-range: cover calc(3% + (var(--i, 0) * 3%)) cover calc(17% + (var(--i, 0) * 3%));
       }
     }
   }
@@ -3003,33 +3003,6 @@ body {
     }
   }
 }
-@keyframes scene-hold {
-  0% {
-    opacity: 0;
-  }
-  25%, 75% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-@keyframes scene-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-@keyframes scene-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
 @layer utilities {
   .scrollytell {
     --scenes: 3;
@@ -3041,54 +3014,21 @@ body {
   .scene {
     display: flex;
     flex-direction: column;
+    min-height: 60svh;
+  }
+  .scene-centred {
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    text-align: center;
-    min-height: 60vh;
     padding: 3rem 1.5rem;
   }
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .scrollytell {
-        height: calc(var(--scenes) * 100vh);
-        view-timeline: --scrolly block;
-      }
-      .scrollytell-stage {
-        position: sticky;
-        top: 0;
-        height: 100vh;
-        display: grid;
-        overflow: hidden;
-      }
-      .scene {
-        grid-area: 1 / 1;
-        min-height: 0;
-        height: 100%;
-        will-change: opacity;
-        animation-name: scene-hold;
-        animation-timeline: --scrolly;
-        animation-fill-mode: both;
-        animation-timing-function: linear;
-        animation-range: contain calc((var(--scene, 0) - 0.1667) / var(--scenes) * 100%) contain calc((var(--scene, 0) + 1.1667) / var(--scenes) * 100%);
-      }
-      .scene:first-child {
-        animation-name: scene-out;
-        animation-range: contain calc(0.8333 / var(--scenes) * 100%) contain calc(1.1667 / var(--scenes) * 100%);
-      }
-      .scene:last-child {
-        animation-name: scene-in;
-        animation-range: contain calc((var(--scenes) - 1.1667) / var(--scenes) * 100%) contain calc((var(--scenes) - 0.8333) / var(--scenes) * 100%);
-      }
-    }
-  }
   .scrollytell--js {
-    height: calc(var(--scenes) * 100vh);
+    height: calc(var(--scenes) * 100svh);
   }
   .scrollytell--js .scrollytell-stage {
     position: sticky;
     top: 0;
-    height: 100vh;
+    height: 100svh;
     display: grid;
     overflow: hidden;
   }
@@ -3098,6 +3038,15 @@ body {
     height: 100%;
     opacity: 0;
     will-change: opacity;
+    transition: opacity var(--scene-fade, 0.5s) ease, transform var(--scene-fade, 0.5s) ease;
+  }
+  .scrollytell--js .scene.is-active {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scrollytell--js .scene {
+      transition: none;
+    }
   }
 }
 @property --tw-rotate-x {

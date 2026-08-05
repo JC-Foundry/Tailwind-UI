@@ -243,18 +243,38 @@ Zero-JS variant: `details.accordion-item > summary`.
 
 ---
 
-## 11 · Motion (always loaded; JS drivers optional)
+## 11 · Motion
 
 | Class | Notes |
 |---|---|
-| `reveal` (+ `reveal-fade` `reveal-rise` `reveal-scale` `reveal-left` `reveal-right`) | animate in on scroll (scrubbed) |
+| `reveal` (+ `reveal-fade` `reveal-rise` `reveal-scale` `reveal-left` `reveal-right`) | animate in on scroll (**scrubbed** — tracks scroll position) |
 | `reveal-stagger` | cascade children by inline `--i` |
-| `scrollytell` > `scrollytell-stage` > `scene` | pinned scroll story (`--scenes`, `--scene`) |
+| `scrollytell` > `scrollytell-stage` > `scene` | pinned scroll story (`--scenes`); scene hand-over is **triggered**, not scrubbed |
+| `scene-centred` | opt-in centred-block look for a scene (centres, gaps, pads). Omit it and the scene lays itself out |
 
-Vars: `--reveal-distance` `--reveal-scale-from` `--reveal-range`. JS-fallback state
-classes (`js-reveal`, `scrollytell--js`) are added automatically.
+**Reveal is scrubbed; scrollytell is not.** Reveal ties the animation to scroll
+position, so it plays backwards as you scroll up. Scrollytell marks one scene
+`.is-active` and lets a CSS transition run on its own clock, so a small scroll across
+a boundary completes the whole hand-over rather than leaving two scenes half-faded.
 
-JS: `initReveal()` · `initScrollytell()` — no-ops where native support exists.
+`scrollytell` state, set by `initScrollytell()` on each section:
+
+| Hook | Meaning |
+|---|---|
+| `.scrollytell--js` | the driver has initialised; everything pinned/faded hangs off this |
+| `.scene.is-active` | the scene the viewport is currently in |
+| `.is-pinned` | set while the stage is stuck to the top — pair with `html:has(.scrollytell.is-pinned) …` to move fixed furniture out of the way |
+| `--p` | 0…1 scroll progress, for anything that *should* track scroll (a rail, a marker) |
+
+Vars: `--reveal-distance` `--reveal-scale-from` `--reveal-range` · `--scene-fade`
+(hand-over duration, default `0.5s`). `js-reveal` is added automatically where reveal
+needs its JS path.
+
+Events: `scrollytell:change` on the section — `detail = { index, scenes, progress }`.
+
+JS: `initReveal()` — no-op where native scroll-driven animation exists.
+`initScrollytell()` — **drives every browser**; no-op only under
+`prefers-reduced-motion`, which leaves scenes as plain stacked blocks.
 
 ---
 

@@ -126,10 +126,21 @@ and Safari:
 - **`reveal`** — animate elements in as they enter the viewport. Driven by
   `reveal.js` (IntersectionObserver), so it behaves the same everywhere; with
   no JS / under reduced-motion, content is simply visible.
-- **`scrollytell`** — pin a section and scrub through scenes. Native pure-CSS
-  scroll-driven timelines where supported, with `scrollytell.js` reproducing the
-  pinned hold-then-fade for browsers that lack them (Firefox today). No-op where
-  native support exists.
+- **`scrollytell`** — pin a section and hand its scenes over on scroll. Driven by
+  `scrollytell.js` on every browser, so it behaves the same everywhere; no-op under
+  reduced-motion, where the scenes fall back to plain stacked blocks.
+
+  The hand-over is **triggered, not scrubbed**: the driver marks one scene
+  `.is-active` and a CSS transition carries it, so a small scroll across a boundary
+  completes the change. Tying opacity to scroll offset instead — which is what a
+  native scroll-driven timeline does — leaves two scenes half-faded wherever you
+  happen to stop. Scroll progress is still published as `--p` for anything that
+  genuinely should track it, such as a progress rail.
+
+  `.scene` itself is structural. The centred-block look is `.scene-centred`, opt-in,
+  because this layer beats anything a page declares in an earlier one — a scene that
+  lays itself out could not override it and would be stuck fighting with
+  `!important`.
 
 ```js
 import { initReveal } from "jc-tailwind-ui/motion/reveal.js";

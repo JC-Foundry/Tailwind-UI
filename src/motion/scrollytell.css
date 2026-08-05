@@ -1,107 +1,102 @@
 /* =====================================================================
-   MOTION · SCROLLYTELL — pin a section and scrub its scenes on scroll
+   MOTION · SCROLLYTELL — pin a section and hand its scenes over on scroll
    ---------------------------------------------------------------------
-   Pure CSS scroll-driven storytelling. Fallback (no support /
-   reduced-motion): scenes stack as normal, readable, full-height blocks —
-   no pin, no scrub.
+   Pairs with motion/scrollytell.js, which drives it on every browser.
+   Fallback (script absent, or reduced-motion): scenes stack as ordinary,
+   readable, full-height blocks — no pin, no fade.
 
    Markup:
      <section class="scrollytell" style="--scenes:3;">
        <div class="scrollytell-stage">
-         <div class="scene" style="--scene:0;">…</div>
-         <div class="scene" style="--scene:1;">…</div>
-         <div class="scene" style="--scene:2;">…</div>
+         <div class="scene scene-centred">…</div>
+         <div class="scene scene-centred">…</div>
+         <div class="scene scene-centred">…</div>
        </div>
      </section>
 
-   Notes:
-     • --scenes on the wrapper drives BOTH the scroll length and each
-       scene's slice; keep it equal to the scene count.
-     • The first scene shows while scrolled above the section, the last
-       while scrolled below it; scenes cross-fade with no gap between.
-     • Keep .scrollytell out of any `overflow: hidden/clip` ancestor,
-       or sticky positioning (and the scrub) will break.
-   ===================================================================== */
+   .scene is structural; .scene-centred is the optional centred-block look. A
+   scene that lays itself out simply leaves it off.
 
-/* Scene cross-fade. Adjacent scenes' fade bands overlap 1:1, so each scene
-   fades in exactly as the previous fades out — no gap to the background. */
-@keyframes scene-hold { 0% { opacity: 0; } 25%, 75% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes scene-in   { from { opacity: 0; } to { opacity: 1; } }
-@keyframes scene-out  { from { opacity: 1; } to { opacity: 0; } }
+   Notes:
+     • --scenes on the wrapper drives the scroll length; keep it equal to
+       the scene count. (--scene per scene is no longer needed for the
+       fade — the script marks the active one — but is kept for authoring
+       and for anything else keying off it.)
+     • The hand-over is TRIGGERED, not scrubbed. The script marks one scene
+       .is-active and the transition below runs on its own clock, so a small
+       scroll across a boundary completes the whole hand-over. Scrubbing
+       opacity against scroll offset cannot do that: stopping mid-fade leaves
+       two scenes half-visible at once.
+     • --p (0…1 scroll progress) is published on the section by the script,
+       for anything that genuinely should track the scroll rather than snap.
+     • .is-pinned is set on the section for exactly the span the stage is
+       stuck to the top of the viewport, so fixed page furniture can move
+       out of the way with `html:has(.scrollytell.is-pinned) …`.
+     • Keep .scrollytell out of any `overflow: hidden/clip` ancestor, or
+       sticky positioning breaks and the section will not pin.
+
+   Tuning:
+     • --scene-fade — hand-over duration. Default 0.5s.
+   ===================================================================== */
 
 @layer utilities {
     .scrollytell { --scenes: 3; position: relative; }
     .scrollytell-stage { display: block; }
+
+    /* Structural only. A scene is a stacking target for the driver, and how its
+       contents sit is the page's business — a timeline scene that scrolls
+       internally, or a two-column narrative, wants none of the centring below and
+       cannot escape it: this layer beats anything a page declares in an earlier
+       one, whatever the specificity. */
     .scene {
         display: flex; flex-direction: column;
+        min-height: 60svh;
+    }
+
+    /* Opt-in presentation: the centred block a marketing scrollytell usually wants.
+       Deliberately no text-align, so a scene taking this can still align its own
+       text without an !important to fight back with. */
+    .scene-centred {
         align-items: center; justify-content: center;
-        gap: 1rem; text-align: center;
-        min-height: 60vh; padding: 3rem 1.5rem;
+        gap: 1rem; padding: 3rem 1.5rem;
     }
 
-    @supports (animation-timeline: view()) {
-        @media (prefers-reduced-motion: no-preference) {
-            .scrollytell {
-                height: calc(var(--scenes) * 100vh);
-                view-timeline: --scrolly block;
-            }
-            .scrollytell-stage {
-                position: sticky; top: 0;
-                height: 100vh;
-                display: grid;            /* stack every scene into one cell */
-                overflow: hidden;
-            }
-            /* Middle scenes: fade in over the previous boundary, hold, fade out
-               over the next. The fade bands overlap each neighbour 1:1. */
-            .scene {
-                grid-area: 1 / 1;
-                min-height: 0; height: 100%;
-                will-change: opacity;
-                animation-name: scene-hold;
-                animation-timeline: --scrolly;
-                animation-fill-mode: both;      /* holds first/last beyond their range */
-                animation-timing-function: linear;
-                animation-range:
-                    contain calc((var(--scene, 0) - 0.1667) / var(--scenes) * 100%)
-                    contain calc((var(--scene, 0) + 1.1667) / var(--scenes) * 100%);
-            }
-            /* First scene: shown while scrolled ABOVE the section (fill), then
-               hands over to scene 2 at the first boundary. */
-            .scene:first-child {
-                animation-name: scene-out;
-                animation-range:
-                    contain calc(0.8333 / var(--scenes) * 100%)
-                    contain calc(1.1667 / var(--scenes) * 100%);
-            }
-            /* Last scene: takes over at the final boundary and stays shown while
-               scrolled BELOW the section (fill). */
-            .scene:last-child {
-                animation-name: scene-in;
-                animation-range:
-                    contain calc((var(--scenes) - 1.1667) / var(--scenes) * 100%)
-                    contain calc((var(--scenes) - 0.8333) / var(--scenes) * 100%);
-            }
-        }
-    }
+    /* ---- Driven ------------------------------------------------------
+       .scrollytell--js is added by initScrollytell(), so none of this
+       applies until the script has run. That keeps the stacked fallback
+       intact when it has not, and is why the pin lives here rather than on
+       .scrollytell itself.
 
-    /* ---- JS fallback (motion/scrollytell.js) -------------------------
-       For browsers WITHOUT native scroll-driven animations (e.g. Firefox
-       today). initScrollytell() adds .scrollytell--js only when the native
-       feature is missing, then drives each scene's opacity on scroll. The
-       pin layout mirrors the @supports path above; opacity is set inline by
-       the script (so if the script never runs, this block never applies and
-       the plain stacked fallback shows). */
-    .scrollytell--js { height: calc(var(--scenes) * 100vh); }
+       svh rather than vh: on mobile the retracting URL bar makes vh taller
+       than the visible viewport, which leaves the stage overhanging and the
+       scenes clipped at the bottom. */
+    .scrollytell--js { height: calc(var(--scenes) * 100svh); }
+
     .scrollytell--js .scrollytell-stage {
         position: sticky; top: 0;
-        height: 100vh;
-        display: grid;
+        height: 100svh;
+        display: grid;            /* stack every scene into one cell */
         overflow: hidden;
     }
+
+    /* transform is transitioned alongside opacity so a scene can add a rise or a
+       drift by setting transform alone, without restating the transition and
+       fighting the layer order to do it. */
     .scrollytell--js .scene {
         grid-area: 1 / 1;
         min-height: 0; height: 100%;
-        opacity: 0;               /* JS sets the real value immediately on init */
+        opacity: 0;
         will-change: opacity;
+        transition: opacity var(--scene-fade, 0.5s) ease,
+                    transform var(--scene-fade, 0.5s) ease;
+    }
+
+    .scrollytell--js .scene.is-active { opacity: 1; }
+
+    /* Belt and braces: initScrollytell already declines to run under reduced
+       motion, so .scrollytell--js should never be present here. This covers the
+       class being applied by hand. */
+    @media (prefers-reduced-motion: reduce) {
+        .scrollytell--js .scene { transition: none; }
     }
 }
